@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/friend_name"
+        android:layout_width="199dp"
+        android:layout_height="49dp"
+        android:text="TextView" />
+
+
+    <TextView
+        android:id="@+id/friend_presence"
+        android:layout_width="49dp"
+        android:layout_height="49dp"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/bt_call"
+        android:layout_width="109dp"
+        android:layout_height="66dp"
+        android:focusable="false"
+        android:text="呼叫" />
+</LinearLayout>

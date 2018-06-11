@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.friend.AddFriendActivity">
+
+    <TextView
+        android:id="@+id/bt_add_friend"
+        android:layout_width="91dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/searchid"
+        android:layout_marginEnd="46dp"
+        android:background="@color/blue"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClickSearchFriend"
+        android:text="查找好友"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/bt_subscribe"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/blue"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClickSubscribe"
+        android:text="申请列表"
+        android:textColor="@color/white" />
+
+    <EditText
+        android:id="@+id/searchid"
+        android:layout_width="157dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="126dp"
+        android:hint="请输入对方id"
+        android:inputType="text" />
+
+    <ListView
+        android:id="@+id/list_search"
+        android:layout_width="match_parent"
+        android:layout_height="339dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Demo</string>
+
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="zero">0</string>
+    <string name="num_left">*</string>
+    <string name="num_right">#</string>
+
+    <string name="agora_app_id">fc12e90244ba4b0cb8345c6e8b2e2d6b</string>
+    <!--声网-->
+
+    <string name="xmpp_ip">211.159.184.113</string>
+    <string name="xmpp_port">5222</string>
+    <string name="xmpp_domain">www.wodefeizhu.cn</string>
+
+
+</resources>

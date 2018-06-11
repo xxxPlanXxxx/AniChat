@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Statistic">
+    <option name="excludeCompilerOutput" value="false" />
+    <option name="excludeIdea9ArtifactDirectory" value="false" />
+    <option name="excludeNPMDirectory" value="false" />
+    <option name="excludeGitArtifactDirectory" value="false" />
+    <option name="excludeSubversionArtifactDirectory" value="false" />
+    <option name="excludeTargetDirectories" value="false" />
+    <option name="excludedDirectories">
+      <list>
+        <option value="$PROJECT_DIR$/gradle" />
+        <option value="$PROJECT_DIR$/.idea" />
+        <option value="$PROJECT_DIR$/.gradle" />
+        <option value="$PROJECT_DIR$/app/libs" />
+        <option value="$PROJECT_DIR$/app/build" />
+      </list>
+    </option>
+  </component>
+</project>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/bt_add_friend"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="167dp"
+        android:background="@color/blue"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClickMain"
+        android:text="添加好友"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/bt_friend"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:background="@color/blue"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClickMain"
+        android:text="好友列表"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/bt_out"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="157dp"
+        android:background="@color/blue"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onClickMain"
+        android:text="退出登陆"
+        android:textColor="@color/white" />
+
+    <TextView
+
+        android:id="@+id/main_title"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:text="欢迎" />
+
+
+</RelativeLayout>
