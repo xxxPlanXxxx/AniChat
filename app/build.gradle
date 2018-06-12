@@ -42,10 +42,9 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'      //HTTP客户端：retrofit
 
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar' //FlycoTabLayout
+
     implementation 'org.igniterealtime.smack:smack-android-extensions:4.1.9' //smack
     implementation 'org.igniterealtime.smack:smack-tcp:4.1.9'
 
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
 }

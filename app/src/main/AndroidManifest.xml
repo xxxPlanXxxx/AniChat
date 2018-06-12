@@ -44,7 +44,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.friend.FriendListActicity"
+            android:name=".activity.friend.FriendListFragment"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.register.RegisterActivity"

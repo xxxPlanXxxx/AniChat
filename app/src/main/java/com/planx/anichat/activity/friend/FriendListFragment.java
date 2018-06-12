@@ -8,11 +8,15 @@
 
 package com.planx.anichat.activity.friend;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,43 +26,58 @@ import com.itheima.pulltorefreshlib.PullToRefreshListView;
 import com.planx.anichat.R;
 import com.planx.anichat.Adapter.FriendListAdapter;
 import com.planx.anichat.MyApplication;
-import com.planx.anichat.activity.MainActivity;
 
 import org.jivesoftware.smack.roster.RosterEntry;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 
-public class FriendListActicity extends AppCompatActivity implements FriendListAdapter.InnerItemOnclickListener,
+public class FriendListFragment extends Fragment implements FriendListAdapter.InnerItemOnclickListener,
         AdapterView.OnItemClickListener {
-    private  final String TAG = FriendListActicity.class.getSimpleName();
+    private  final String TAG = FriendListFragment.class.getSimpleName();
     private FriendListAdapter mArrayAdapter;
     private PullToRefreshListView mPullToRefreshListView;
     private ArrayList<String> mItems = new ArrayList<String>();
     private ArrayList<String> mPresences = new ArrayList<String>();
+    private View layout;
+    private Activity activity;
+//    private WindowManager windowManager;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_friend);
-        mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.pull_to_refresh_list_view);
-        Log.i(TAG,"开始获取好友列表");
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if(layout==null){
+            activity=this.getActivity();
+            layout=activity.getLayoutInflater().inflate(R.layout.list_friend,null);
+//            windowManager=(WindowManager)activity.getSystemService(Context.WINDOW_SERVICE);
+            initView();
+        }
+        else {
+            ViewGroup parent = (ViewGroup) layout.getParent();
+            if (parent != null) {
+                parent.removeView(layout);
+            }
+        }
+        return layout;
+    }
+
+    private void initView(){
+        mPullToRefreshListView = layout.findViewById(R.id.pull_to_refresh_list_view);
         friendList();
-        Log.i(TAG,"完成获取好友列表");
-        mArrayAdapter = new FriendListAdapter(mItems,mPresences,this);
+        mArrayAdapter = new FriendListAdapter(mItems,mPresences,activity);
         mArrayAdapter.setOnInnerItemOnClickListener(this);
         mPullToRefreshListView.setAdapter(mArrayAdapter);
         mPullToRefreshListView.setOnItemClickListener(this);
     }
+
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         mItems.clear();
 //        MyApplication.the().getmAgoraAPI().logout();
     }
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
         mPullToRefreshListView.setOnRefreshListener(mListViewOnRefreshListener2);
@@ -75,7 +94,7 @@ public class FriendListActicity extends AppCompatActivity implements FriendListA
     }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(FriendListActicity.this,"点击"+position,Toast.LENGTH_LONG).show();
+        Toast.makeText(activity,"点击"+position,Toast.LENGTH_LONG).show();
     }
 
     private void friendList(){

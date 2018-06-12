@@ -1,59 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tl="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/bt_add_friend"
-        android:layout_width="225dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="167dp"
-        android:background="@color/blue"
-        android:clickable="true"
-        android:gravity="center"
-        android:onClick="onClickMain"
-        android:text="添加好友"
-        android:textColor="@color/white" />
+    <FrameLayout
+        android:id="@+id/fl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="54dp" />
 
-    <TextView
-        android:id="@+id/bt_friend"
-        android:layout_width="225dp"
-        android:layout_height="40dp"
-        android:layout_centerInParent="true"
-        android:background="@color/blue"
-        android:clickable="true"
-        android:gravity="center"
-        android:onClick="onClickMain"
-        android:text="好友列表"
-        android:textColor="@color/white" />
-
-    <TextView
-        android:id="@+id/bt_out"
-        android:layout_width="225dp"
-        android:layout_height="40dp"
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/tl_main"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="157dp"
-        android:background="@color/blue"
-        android:clickable="true"
-        android:gravity="center"
-        android:onClick="onClickMain"
-        android:text="退出登陆"
-        android:textColor="@color/white" />
-
-    <TextView
-
-        android:id="@+id/main_title"
-        android:layout_width="340dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="70dp"
-        android:gravity="center"
-        android:text="欢迎" />
+        android:layout_alignParentStart="true"
+        android:background="#ffffff"
+        tl:tl_iconHeight="23dp"
+        tl:tl_iconWidth="23dp"
+        tl:tl_indicator_color="#2C97DE"
+        tl:tl_indicator_height="0dp"
+        tl:tl_textSelectColor="#2C97DE"
+        tl:tl_textUnselectColor="#66000000"
+        tl:tl_textsize="12sp"
+        tl:tl_underline_color="#DDDDDD"
+        tl:tl_underline_height="1dp" />
 
 
 </RelativeLayout>

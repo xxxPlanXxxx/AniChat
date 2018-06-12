@@ -4,31 +4,45 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 import io.agora.AgoraAPI;
 import io.agora.IAgoraAPI;
 
+import com.flyco.tablayout.CommonTabLayout;
+import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.planx.anichat.MyApplication;
 import com.planx.anichat.R;
 import com.planx.anichat.activity.friend.AddFriendActivity;
-import com.planx.anichat.activity.friend.FriendListActicity;
+import com.planx.anichat.activity.friend.FriendListFragment;
 import com.planx.anichat.activity.login.LoginActivity;
 import com.planx.anichat.activity.video.CallActivity;
+import com.planx.anichat.entity.TabEntity;
 import com.planx.anichat.utils.Constant;
+
+import java.util.ArrayList;
 
 import io.agora.rtc.RtcEngine;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    private String[] mTitles = {"模型", "消息", "主页",};
+    private int[] mIconUnselectIds = {
+            R.mipmap.tab_more_unselect,R.mipmap.tab_speech_unselect,R.mipmap.tab_contact_unselect};
+    private int[] mIconSelectIds = {
+            R.mipmap.tab_more_select,R.mipmap.tab_speech_select,R.mipmap.tab_contact_select};
+    private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
+    private ArrayList<Fragment> mFragments = new ArrayList<>();
+    private FriendListFragment friendListFragment;
 
     private  final String TAG = MainActivity.class.getSimpleName();
 
-    private TextView welcomeText;
+    private CommonTabLayout tabLayout;
     private String appId;
     private String account;
     private final int REQUEST_CODE = 0x01;
@@ -39,44 +53,66 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i(TAG,"onCreate");
-        welcomeText = findViewById(R.id.main_title);
         appId = getString(R.string.agora_app_id);
         account = MyApplication.getAccount().getString("username","");
-        welcomeText.setText("欢迎"+account);
         MyApplication.the().getmAgoraAPI().login2(appId, account, "_no_need_token", 0, "" ,5,3  );
         addCallback();
+        initView();
+
     }
 
-    public void onClickMain(View v){
-        Log.i(TAG ,"onClickLogin");
-        switch (v.getId()){
-            case R.id.bt_friend:
-
-                Intent intent = new Intent(MainActivity.this,FriendListActicity.class);
-                Log.i(TAG ,"startActivity：FriendListActicity.class");
-                startActivity(intent);
-                break;
-            case R.id.bt_out:
-                MyApplication.the().getmAgoraAPI().logout();
-                SharedPreferences user = getSharedPreferences("account", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = user.edit();
-                editor.remove("username");
-                editor.remove("passwd");
-                editor.commit();
-                Intent intent1 = new Intent(MainActivity.this,
-                        LoginActivity.class);
-                startActivity(intent1);
-                MyApplication.logout();
-                finish();
-                break;
-            case R.id.bt_add_friend:
-                Intent intent2 = new Intent(MainActivity.this,
-                        AddFriendActivity.class);
-                startActivity(intent2);
-                break;
+    private void initView(){
+        tabLayout=findViewById(R.id.tl_main);
+        for (int i = 0; i < mTitles.length; i++) {
+            mTabEntities.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
+        friendListFragment = new FriendListFragment();
+        mFragments.add(friendListFragment);
 
+        tabLayout.setTabData(mTabEntities,this,R.id.fl_main,mFragments);
+        tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
+        tabLayout.setCurrentTab(2);
+        tabLayout.showDot(1);
     }
+//    public void onClickMain(View v){
+//        Log.i(TAG ,"onClickLogin");
+//        switch (v.getId()){
+//            case R.id.bt_friend:
+//
+//                Intent intent = new Intent(MainActivity.this,FriendListFragment.class);
+//                Log.i(TAG ,"startActivity：FriendListActicity.class");
+//                startActivity(intent);
+//                break;
+//            case R.id.bt_out:
+//                MyApplication.the().getmAgoraAPI().logout();
+//                SharedPreferences user = getSharedPreferences("account", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = user.edit();
+//                editor.remove("username");
+//                editor.remove("passwd");
+//                editor.commit();
+//                Intent intent1 = new Intent(MainActivity.this,
+//                        LoginActivity.class);
+//                startActivity(intent1);
+//                MyApplication.logout();
+//                finish();
+//                break;
+//            case R.id.bt_add_friend:
+//                Intent intent2 = new Intent(MainActivity.this,
+//                        AddFriendActivity.class);
+//                startActivity(intent2);
+//                break;
+//        }
+//
+//    }
 
     private void addCallback() {
         MyApplication.the().getmAgoraAPI().callbackSet(new AgoraAPI.CallBack() {
