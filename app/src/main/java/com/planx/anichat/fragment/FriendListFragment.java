@@ -6,7 +6,7 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-package com.planx.anichat.activity.friend;
+package com.planx.anichat.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;

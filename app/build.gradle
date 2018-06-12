@@ -47,4 +47,5 @@ dependencies {
     implementation 'org.igniterealtime.smack:smack-android-extensions:4.1.9' //smack
     implementation 'org.igniterealtime.smack:smack-tcp:4.1.9'
 
+    implementation 'com.android.support:support-v4:27.1.1'
 }

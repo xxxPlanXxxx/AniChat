@@ -1,13 +1,10 @@
 package com.planx.anichat.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 import io.agora.AgoraAPI;
 import io.agora.IAgoraAPI;
@@ -17,9 +14,8 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.planx.anichat.MyApplication;
 import com.planx.anichat.R;
-import com.planx.anichat.activity.friend.AddFriendActivity;
-import com.planx.anichat.activity.friend.FriendListFragment;
-import com.planx.anichat.activity.login.LoginActivity;
+import com.planx.anichat.fragment.AccountFragment;
+import com.planx.anichat.fragment.FriendListFragment;
 import com.planx.anichat.activity.video.CallActivity;
 import com.planx.anichat.entity.TabEntity;
 import com.planx.anichat.utils.Constant;
@@ -39,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private FriendListFragment friendListFragment;
+    private AccountFragment accountFragment;
 
     private  final String TAG = MainActivity.class.getSimpleName();
 
@@ -67,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
             mTabEntities.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
         friendListFragment = new FriendListFragment();
+        accountFragment = new AccountFragment();
         mFragments.add(friendListFragment);
+//        mFragments.add(accountFragment);
 
         tabLayout.setTabData(mTabEntities,this,R.id.fl_main,mFragments);
         tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
