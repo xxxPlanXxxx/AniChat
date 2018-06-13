@@ -36,15 +36,8 @@
             android:screenOrientation="sensorPortrait"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".activity.NumberCallActivity"
-            android:label="Call SomeOne"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.video.CallActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".fragment.FriendListFragment"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.register.RegisterActivity"

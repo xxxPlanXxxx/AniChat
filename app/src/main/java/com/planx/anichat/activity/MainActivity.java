@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 import io.agora.AgoraAPI;
 import io.agora.IAgoraAPI;
@@ -14,7 +17,9 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.planx.anichat.MyApplication;
 import com.planx.anichat.R;
-import com.planx.anichat.fragment.AccountFragment;
+import com.planx.anichat.activity.friend.AddFriendActivity;
+import com.planx.anichat.fragment.ChatFragment;
+import com.planx.anichat.fragment.ModelFragment;
 import com.planx.anichat.fragment.FriendListFragment;
 import com.planx.anichat.activity.video.CallActivity;
 import com.planx.anichat.entity.TabEntity;
@@ -35,8 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private FriendListFragment friendListFragment;
-    private AccountFragment accountFragment;
+    private ModelFragment moudelFragment;
+    private ChatFragment chatFragment;
 
+    private Toolbar toolbar;
     private  final String TAG = MainActivity.class.getSimpleName();
 
     private CommonTabLayout tabLayout;
@@ -58,15 +65,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     private void initView(){
+
+        //标题栏
+        toolbar =  findViewById(R.id.toolbar);
+        toolbar.setTitle("AniChat");
+        setSupportActionBar(toolbar);
+
+
         tabLayout=findViewById(R.id.tl_main);
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
         friendListFragment = new FriendListFragment();
-        accountFragment = new AccountFragment();
+        moudelFragment = new ModelFragment();
+        chatFragment = new ChatFragment();
+        mFragments.add(moudelFragment);
+        mFragments.add(chatFragment);
         mFragments.add(friendListFragment);
-//        mFragments.add(accountFragment);
 
         tabLayout.setTabData(mTabEntities,this,R.id.fl_main,mFragments);
         tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
@@ -113,6 +131,31 @@ public class MainActivity extends AppCompatActivity {
 //
 //    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                Intent intent2 = new Intent(MainActivity.this,
+                        AddFriendActivity.class);
+                startActivity(intent2);
+                return true;
+
+            case R.id.action_video:
+                Toast.makeText(getApplicationContext(),"正在开发",Toast.LENGTH_SHORT).show();
+                return true;
+
+            default:
+
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_bar, menu);
+        return true;
+    }
     private void addCallback() {
         MyApplication.the().getmAgoraAPI().callbackSet(new AgoraAPI.CallBack() {
 

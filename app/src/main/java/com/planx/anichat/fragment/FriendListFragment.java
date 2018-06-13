@@ -99,8 +99,6 @@ public class FriendListFragment extends Fragment implements FriendListAdapter.In
 
     private void friendList(){
         Set<RosterEntry> entries = MyApplication.getRoster().getEntries();
-        Log.i(TAG,"获取Collection<RosterEntry> entries");
-        Log.i(TAG,"添加自己");
         for (RosterEntry entry : entries) {
             String nameId = entry.getUser();
             String name = nameId.split("@")[0];
