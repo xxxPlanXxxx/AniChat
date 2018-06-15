@@ -1,9 +1,13 @@
 package com.planx.anichat.activity.login;
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +30,8 @@ import org.jivesoftware.smack.roster.Roster;
 
 import java.io.IOException;
 
+import static com.planx.anichat.utils.MyUtils.verifyStoragePermissions;
+
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameText;
     private EditText passwordText;
@@ -34,14 +40,17 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        verifyStoragePermissions(this);
         usernameText = findViewById(R.id.username);
         passwordText = findViewById(R.id.password);
         initView();
-
+        Log.i("LoginActivity","OnCreate执行完毕");
     }
 
     private void initView(){

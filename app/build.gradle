@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId "com.planx.anichat"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 27
         versionCode 2
         versionName "1.1"
@@ -44,8 +44,11 @@ dependencies {
 
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar' //FlycoTabLayout
 
+    implementation 'de.hdodenhof:circleimageview:2.2.0' //圆形图片
+
     implementation 'org.igniterealtime.smack:smack-android-extensions:4.1.9' //smack
     implementation 'org.igniterealtime.smack:smack-tcp:4.1.9'
 
     implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
 }

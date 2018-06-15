@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 import io.agora.AgoraAPI;
 import io.agora.IAgoraAPI;
@@ -17,13 +18,14 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.planx.anichat.MyApplication;
 import com.planx.anichat.R;
+import com.planx.anichat.activity.account.AccountActivity;
 import com.planx.anichat.activity.friend.AddFriendActivity;
 import com.planx.anichat.fragment.ChatFragment;
 import com.planx.anichat.fragment.ModelFragment;
-import com.planx.anichat.fragment.FriendListFragment;
+import com.planx.anichat.fragment.HomeFragment;
 import com.planx.anichat.activity.video.CallActivity;
 import com.planx.anichat.entity.TabEntity;
-import com.planx.anichat.utils.Constant;
+import com.planx.anichat.utils.MyUtils;
 
 import java.util.ArrayList;
 
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             R.mipmap.tab_more_select,R.mipmap.tab_speech_select,R.mipmap.tab_contact_select};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private ArrayList<Fragment> mFragments = new ArrayList<>();
-    private FriendListFragment friendListFragment;
+    private HomeFragment homeFragment;
     private ModelFragment moudelFragment;
     private ChatFragment chatFragment;
 
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i(TAG,"onCreate");
+        //声网SDK
         appId = getString(R.string.agora_app_id);
         account = MyApplication.getAccount().getString("username","");
         MyApplication.the().getmAgoraAPI().login2(appId, account, "_no_need_token", 0, "" ,5,3  );
@@ -69,23 +72,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView(){
 
+        //初始化头像和昵称
+
+
         //标题栏
         toolbar =  findViewById(R.id.toolbar);
         toolbar.setTitle("AniChat");
         setSupportActionBar(toolbar);
 
-
+        //底部导航
         tabLayout=findViewById(R.id.tl_main);
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
-        friendListFragment = new FriendListFragment();
+        homeFragment = new HomeFragment();
         moudelFragment = new ModelFragment();
         chatFragment = new ChatFragment();
         mFragments.add(moudelFragment);
         mFragments.add(chatFragment);
-        mFragments.add(friendListFragment);
-
+        mFragments.add(homeFragment);
         tabLayout.setTabData(mTabEntities,this,R.id.fl_main,mFragments);
         tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -99,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
         });
         tabLayout.setCurrentTab(2);
         tabLayout.showDot(1);
+
+
     }
 //    public void onClickMain(View v){
 //        Log.i(TAG ,"onClickLogin");
@@ -139,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
                         AddFriendActivity.class);
                 startActivity(intent2);
                 return true;
-
             case R.id.action_video:
                 Toast.makeText(getApplicationContext(),"正在开发",Toast.LENGTH_SHORT).show();
                 return true;
@@ -150,6 +156,13 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+    public void onAvatarClick(View v){
+//        Toast.makeText(getApplicationContext(),"跳转到编辑页面",Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
+        startActivity(intent);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -213,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("account", MyApplication.getAccount().getString("username",""));
                         intent.putExtra("channelName", channelID);
                         intent.putExtra("subscriber", account);
-                        intent.putExtra("type", Constant.CALL_IN);
+                        intent.putExtra("type", MyUtils.CALL_IN);
                         startActivityForResult(intent, REQUEST_CODE);
                     }
                 });
@@ -229,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("account", MyApplication.getAccount().getString("username",""));
                         intent.putExtra("channelName", channelID);
                         intent.putExtra("subscriber", account);
-                        intent.putExtra("type", Constant.CALL_OUT);
+                        intent.putExtra("type", MyUtils.CALL_OUT);
                         startActivityForResult(intent, REQUEST_CODE);
                     }
                 });

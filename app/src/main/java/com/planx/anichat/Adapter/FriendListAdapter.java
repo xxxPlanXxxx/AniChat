@@ -1,27 +1,33 @@
 package com.planx.anichat.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.planx.anichat.R;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class FriendListAdapter extends BaseAdapter implements View.OnClickListener {
     private List<String> mList;
-    private List<String> mPresence;
+    private List<Bitmap> bitmaps;
+    private List<String> mPresences;
     private Context mContext;
     private InnerItemOnclickListener mListener;
-    private int mPosition;
 
-    public FriendListAdapter(List<String> mList,List<String> mPresence, Context mContext) {
+    public FriendListAdapter(List<String> mList,List<String> mPresences,List<Bitmap> bitmaps, Context mContext) {
         this.mList = mList;
-        this.mPresence = mPresence;
+        this.bitmaps = bitmaps;
+        this.mPresences = mPresences;
         this.mContext = mContext;
     }
 
@@ -47,7 +53,6 @@ public class FriendListAdapter extends BaseAdapter implements View.OnClickListen
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        mPosition = position;
         final ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -55,7 +60,7 @@ public class FriendListAdapter extends BaseAdapter implements View.OnClickListen
                     null);
             viewHolder.bt = (Button) convertView.findViewById(R.id.bt_call);
             viewHolder.tv = (TextView) convertView.findViewById(R.id.friend_name);
-            viewHolder.fp = (TextView) convertView.findViewById(R.id.friend_presence);
+            viewHolder.fa =  convertView.findViewById(R.id.friend_avatar);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -63,14 +68,19 @@ public class FriendListAdapter extends BaseAdapter implements View.OnClickListen
         viewHolder.bt.setOnClickListener(this);
         viewHolder.bt.setTag(position);
         viewHolder.tv.setText(mList.get(position));
-        viewHolder.fp.setText(mPresence.get(position));
+        viewHolder.fa.setImageBitmap(bitmaps.get(position));
+        if(mPresences.get(position).equals("available")){
+            viewHolder.tv.setTextColor(Color.BLACK);
+        }else {
+            viewHolder.tv.setTextColor(Color.GRAY);
+        }
         return convertView;
     }
 
     public final class ViewHolder {
         Button bt;
         TextView tv;
-        TextView fp;
+        CircleImageView fa;
     }
 
     public interface InnerItemOnclickListener {

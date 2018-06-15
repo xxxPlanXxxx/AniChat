@@ -33,7 +33,7 @@ import com.planx.anichat.MyApplication;
 import io.agora.rtc.Constants;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
-import com.planx.anichat.utils.Constant;
+import com.planx.anichat.utils.MyUtils;
 
 public class CallActivity extends AppCompatActivity implements MyApplication.OnAgoraEngineInterface {
     private final String TAG = CallActivity.class.getSimpleName();
@@ -94,7 +94,7 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
         mSubscriber = intent.getStringExtra("subscriber");
         channelName = intent.getStringExtra("channelName");
         callType = intent.getIntExtra("type", -1);
-        if (callType == Constant.CALL_IN) {
+        if (callType == MyUtils.CALL_IN) {
             mIsCallInRefuse = true;
             mLayoutCallIn.setVisibility(View.VISIBLE);
             mCallHangupBtn.setVisibility(View.GONE);
@@ -108,7 +108,7 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
                 e.printStackTrace();
             }
             setupLocalVideo(); // Tutorial Step 3
-        } else if (callType == Constant.CALL_OUT) {
+        } else if (callType == MyUtils.CALL_OUT) {
             mLayoutCallIn.setVisibility(View.GONE);
             mCallHangupBtn.setVisibility(View.VISIBLE);
             mCallTitle.setText(String.format(Locale.US, "%s is be called...", mSubscriber));
@@ -410,7 +410,7 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
     @Override
     public void onBackPressed() {
         Log.i(TAG, "onBackPressed callType: " + callType + " mIsCallInRefuse: " + mIsCallInRefuse);
-        if (callType == Constant.CALL_IN && mIsCallInRefuse) {
+        if (callType == MyUtils.CALL_IN && mIsCallInRefuse) {
             callInRefuse();
         } else {
             callOutHangup();
