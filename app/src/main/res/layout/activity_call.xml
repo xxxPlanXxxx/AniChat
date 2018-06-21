@@ -13,8 +13,8 @@
 
     <RelativeLayout
         android:id="@+id/local_video_view_container"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="201dp"
+        android:layout_height="212dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
 

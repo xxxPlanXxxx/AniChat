@@ -271,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onQueryUserStatusResult(final String name, final String status) {
+                Log.i("onQueryUserStatusResult","+++++++状态"+status);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -286,14 +287,22 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onMessageInstantReceive(String account, int uid, String msg) {
-                Log.i("onMessageInstantReceive",account+":"+msg);
-                String[] reciveEmotions = msg.split("@");
-                int i = 0;
-                for (String reciveEmotion :reciveEmotions){
-                    double rEmotion = Double.valueOf(reciveEmotion);
-                    MyApplication.emotionH[i]=rEmotion;
-                }
+            public void onMessageInstantReceive(String account, int uid, final String msg) {
+                Log.i("onMessageInstantReceive",account+": "+msg);
+                final String message = msg;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        String[] reciveEmotions = message.split("@");
+                        int i = 0;
+                        for (String reciveEmotion :reciveEmotions){
+                            double rEmotion = Double.valueOf(reciveEmotion);
+                            MyApplication.emotionH[i]=rEmotion;
+                        }
+                    }
+                });
+
             }
         });
 
@@ -303,13 +312,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         Log.i(TAG,"onCreate");
         super.onResume();
+        addCallback();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.i(TAG ,"onDestroy");
-        RtcEngine.destroy();
+//        RtcEngine.destroy();
     }
 
 }

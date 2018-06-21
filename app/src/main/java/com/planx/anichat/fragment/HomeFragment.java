@@ -48,6 +48,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeFragment extends Fragment implements FriendListAdapter.InnerItemOnclickListener,
         AdapterView.OnItemClickListener {
+    private final String TAG = "HomeFragment";
     private ArrayList<String> mUsername=new ArrayList<String>();
     private FriendListAdapter mArrayAdapter;
     private PullToRefreshListView mPullToRefreshListView;
@@ -166,6 +167,7 @@ public class HomeFragment extends Fragment implements FriendListAdapter.InnerIte
 //        Toast.makeText(FriendListActicity.this,"呼叫"+mItems.get(m-1),Toast.LENGTH_LONG).show();
         MyApplication.callWho = mUsername.get(Integer.parseInt(v.getTag().toString()));
 //        Toast.makeText(FriendListActicity.this,"呼叫"+callwho,Toast.LENGTH_LONG).show();
+        Log.i(TAG,"queryUserStatus:"+MyApplication.callWho);
         MyApplication.the().getmAgoraAPI().queryUserStatus(MyApplication.callWho);
     }
     @Override

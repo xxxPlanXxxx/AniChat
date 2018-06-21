@@ -36,6 +36,8 @@ import io.agora.rtc.RtcEngine;
 import io.agora.rtc.mediaio.IVideoSource;
 import io.agora.rtc.video.AgoraVideoFrame;
 import io.agora.rtc.video.VideoCanvas;
+
+import com.planx.anichat.activity.MainActivity;
 import com.planx.anichat.utils.MyUtils;
 import com.planx.anichat.view.CameraPreview;
 import com.planx.anichat.view.Live2dGLSurfaceView;
@@ -219,6 +221,7 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
                 if (mPlayer != null && mPlayer.isPlaying()) {
                     mPlayer.stop();
                 }
+                setupRemoteVideo(mRemoteUid);
                 break;
 
             case R.id.call_button_hangup: // call out canceled or call ended
@@ -253,6 +256,29 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
         }
 
         mAgoraAPI.callbackSet(new AgoraAPI.CallBack() {
+
+
+            @Override
+            public void onMessageInstantReceive(String account, int uid, final String msg) {
+                Log.i("onMessageInstantReceive",account+": "+msg);
+                final String message = msg;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        String[] reciveEmotions = message.split("@");
+                        int i = 0;
+                        for (String reciveEmotion :reciveEmotions){
+                            double rEmotion = Double.valueOf(reciveEmotion);
+                            MyApplication.emotionH[i]=rEmotion;
+                            i++;
+                        }
+                        String mm=MyApplication.emotionH[0]+" "+MyApplication.emotionH[1]+" "+MyApplication.emotionH[2]+" "+MyApplication.emotionH[3];
+                        Log.i(TAG,mm);
+                    }
+                });
+
+            }
 
             @Override
             public void onLogout(final int i) {
@@ -319,7 +345,7 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
              * @param s2
              */
             @Override
-            public void onInviteAcceptedByPeer(String channelID, String account, int uid, String s2) {
+            public void onInviteAcceptedByPeer(String channelID, String account, final int uid, String s2) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -327,6 +353,7 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
                             mPlayer.stop();
                         }
                         mCallTitle.setVisibility(View.GONE);
+                        setupRemoteVideo(uid);
                     }
                 });
 
@@ -480,7 +507,7 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
         CameraPreview cameraPreview = new CameraPreview(this);
         cameraPreview.init(this);
         Live2dGLSurfaceView mGLSurfaceView = new Live2dGLSurfaceView(CallActivity.this);
-        mGLSurfaceView.init(CallActivity.this, MODEL_PATH, TEXTURE_PATHS, 1, 1);
+        mGLSurfaceView.init(true,CallActivity.this, MODEL_PATH, TEXTURE_PATHS, 1, 1);
 //        mGLSurfaceView.setOnFrameAvailableHandler(new Live2dGLSurfaceView.OnFrameAvailableListener(){
 //
 //            @Override
@@ -526,33 +553,36 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
         if (mLayoutBigView.getChildCount() >= 1) {
             mLayoutBigView.removeAllViews();
         }
+        if (mLayoutSmallView.getChildCount() >= 1) {
+            mLayoutSmallView.removeAllViews();
+        }
 //        CameraPreview cameraPreview = new CameraPreview(this);
 //        cameraPreview.init(this);
         Live2dGLSurfaceView mGLSurfaceView = new Live2dGLSurfaceView(CallActivity.this);
-        mGLSurfaceView.init(CallActivity.this, MODEL_PATH, TEXTURE_PATHS, 1, 1);
-        mGLSurfaceView.setOnFrameAvailableHandler(new Live2dGLSurfaceView.OnFrameAvailableListener(){
-
-            @Override
-            public void onFrameAvailable(int texture, EGLContext eglContext, int rotation) {
-                AgoraVideoFrame vf = new AgoraVideoFrame();
-                vf.format = AgoraVideoFrame.FORMAT_TEXTURE_2D;
-                vf.timeStamp = System.currentTimeMillis();
-                vf.stride = 1080;
-                vf.height = 1920;
-                vf.textureID = texture;
-                vf.syncMode = true;
-                vf.eglContext11 = eglContext;
-                vf.transform = new float[]{
-                        1.0f, 0.0f, 0.0f, 0.0f,
-                        0.0f, 1.0f, 0.0f, 0.0f,
-                        0.0f, 0.0f, 1.0f, 0.0f,
-                        0.0f, 0.0f, 0.0f, 1.0f
-                };
-
-                boolean result = mRtcEngine.pushExternalVideoFrame(vf);
-                Log.d("onFrameAvailable " , eglContext + " " + rotation + " " + texture + " " + result);
-            }
-        });
+        mGLSurfaceView.init(true,CallActivity.this, MODEL_PATH, TEXTURE_PATHS, 1, 1);
+//        mGLSurfaceView.setOnFrameAvailableHandler(new Live2dGLSurfaceView.OnFrameAvailableListener(){
+//
+//            @Override
+//            public void onFrameAvailable(int texture, EGLContext eglContext, int rotation) {
+//                AgoraVideoFrame vf = new AgoraVideoFrame();
+//                vf.format = AgoraVideoFrame.FORMAT_TEXTURE_2D;
+//                vf.timeStamp = System.currentTimeMillis();
+//                vf.stride = 1080;
+//                vf.height = 1920;
+//                vf.textureID = texture;
+//                vf.syncMode = true;
+//                vf.eglContext11 = eglContext;
+//                vf.transform = new float[]{
+//                        1.0f, 0.0f, 0.0f, 0.0f,
+//                        0.0f, 1.0f, 0.0f, 0.0f,
+//                        0.0f, 0.0f, 1.0f, 0.0f,
+//                        0.0f, 0.0f, 0.0f, 1.0f
+//                };
+//
+//                boolean result = mRtcEngine.pushExternalVideoFrame(vf);
+//                Log.d("onFrameAvailable " , eglContext + " " + rotation + " " + texture + " " + result);
+//            }
+//        });
 
 //        mGLSurfaceView.setOnEGLContextHandler(new Live2dGLSurfaceView.OnEGLContextListener() {
 //            @Override
@@ -568,9 +598,10 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
 
 
 
-        SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
-        mLayoutBigView.addView(surfaceView);
-        mRtcEngine.setupRemoteVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid));
+        Live2dGLSurfaceView mGLSurfaceView1 = new Live2dGLSurfaceView(CallActivity.this);
+        mGLSurfaceView1.init(false,CallActivity.this, MODEL_PATH, TEXTURE_PATHS, 1, 1);
+        mLayoutBigView.addView(mGLSurfaceView1);
+//        mRtcEngine.setupRemoteVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid));
         mLayoutBigView.setVisibility(View.VISIBLE);
     }
 

@@ -23,6 +23,7 @@ public class FaceDetector {
 
     private int mCounter = 0;
 
+
     private Context mContext;
     private CallActivity mActivity;
     private FaceDet mFaceDet;

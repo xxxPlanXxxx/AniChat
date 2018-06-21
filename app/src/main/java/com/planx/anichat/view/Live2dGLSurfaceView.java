@@ -29,7 +29,9 @@ import javax.microedition.khronos.opengles.GL10;
 import jp.live2d.android.Live2DModelAndroid;
 import jp.live2d.android.UtOpenGL;
 
-public class Live2dGLSurfaceView extends GLSurfaceView implements  GLSurfaceView.Renderer ,SurfaceTexture.OnFrameAvailableListener {
+public class Live2dGLSurfaceView extends GLSurfaceView implements  GLSurfaceView.Renderer {
+
+    private boolean isMe;
 
     private float color = 0f;
     private CallActivity mActivity;
@@ -114,11 +116,11 @@ public class Live2dGLSurfaceView extends GLSurfaceView implements  GLSurfaceView
     public void setOnFrameAvailableHandler(OnFrameAvailableListener listener) {
         this.mOnFrameAvailableHandler = listener;
     }
-    @Override
-    public synchronized void onFrameAvailable(SurfaceTexture surfaceTexture) {
-        requestRender();
-    }
-    public void init(CallActivity activity, String MODEL_PATH, String[] TEXTURE_PATHS,
+//    @Override
+//    public synchronized void onFrameAvailable(SurfaceTexture surfaceTexture) {
+//        requestRender();
+//    }
+    public void init(boolean isMe,CallActivity activity, String MODEL_PATH, String[] TEXTURE_PATHS,
                      float wRatio, float hRatio) {
 //        final String MODEL_PATH = "live2d/haru/haru.moc";
 //        final String[] TEXTURE_PATHS = {
@@ -130,7 +132,7 @@ public class Live2dGLSurfaceView extends GLSurfaceView implements  GLSurfaceView
 //        setEGLContextClientVersion(1);
 //        setEGLContextFactory(new MyContextFactory(this));
 //        setPreserveEGLContextOnPause(true);
-
+        this.isMe = isMe;
         setUpModel(activity, MODEL_PATH, TEXTURE_PATHS, wRatio, hRatio);
         setRenderer(this);
 //        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
@@ -179,19 +181,26 @@ public class Live2dGLSurfaceView extends GLSurfaceView implements  GLSurfaceView
         mEyeBlink.updateParam(live2DModel);
         //live2DModel.saveParam();
 
-        live2DModel.setParamFloat(L2DStandardID.PARAM_ANGLE_Z, (float) MyApplication.emotion[0], 0.75f);
-        live2DModel.setParamFloat(L2DStandardID.PARAM_ANGLE_X , (float) MyApplication.emotion[1], 0.75f);
-        live2DModel.setParamFloat(L2DStandardID.PARAM_ANGLE_Y , (float) MyApplication.emotion[2], 0.75f);
-        live2DModel.setParamFloat(L2DStandardID.PARAM_MOUTH_OPEN_Y, (float) MyApplication.emotion[3], 0.75f);
-        live2DModel.setParamFloat(L2DStandardID.PARAM_MOUTH_FORM, (float) MyApplication.emotion[3], 0.75f);
-
+        if(isMe) {
+            live2DModel.setParamFloat(L2DStandardID.PARAM_ANGLE_Z, (float) MyApplication.emotion[0], 0.75f);
+            live2DModel.setParamFloat(L2DStandardID.PARAM_ANGLE_X, (float) MyApplication.emotion[1], 0.75f);
+            live2DModel.setParamFloat(L2DStandardID.PARAM_ANGLE_Y, (float) MyApplication.emotion[2], 0.75f);
+            live2DModel.setParamFloat(L2DStandardID.PARAM_MOUTH_OPEN_Y, (float) MyApplication.emotion[3], 0.75f);
+            live2DModel.setParamFloat(L2DStandardID.PARAM_MOUTH_FORM, (float) MyApplication.emotion[3], 0.75f);
+        }else{
+            live2DModel.setParamFloat(L2DStandardID.PARAM_ANGLE_Z, (float) MyApplication.emotionH[0], 0.75f);
+            live2DModel.setParamFloat(L2DStandardID.PARAM_ANGLE_X, (float) MyApplication.emotionH[1], 0.75f);
+            live2DModel.setParamFloat(L2DStandardID.PARAM_ANGLE_Y, (float) MyApplication.emotionH[2], 0.75f);
+            live2DModel.setParamFloat(L2DStandardID.PARAM_MOUTH_OPEN_Y, (float) MyApplication.emotionH[3], 0.75f);
+            live2DModel.setParamFloat(L2DStandardID.PARAM_MOUTH_FORM, (float) MyApplication.emotionH[3], 0.75f);
+        }
         live2DModel.setGL(gl);
         live2DModel.update();
         live2DModel.draw();
 
-        if (mOnFrameAvailableHandler != null) {
-            mOnFrameAvailableHandler.onFrameAvailable(1, mEGLCurrentContext, 0);
-        }
+//        if (mOnFrameAvailableHandler != null) {
+//            mOnFrameAvailableHandler.onFrameAvailable(1, mEGLCurrentContext, 0);
+//        }
     }
 
 
