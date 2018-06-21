@@ -1,4 +1,4 @@
-package com.planx.anichat.Friend;
+package com.planx.anichat.friend;
 
 /**
  * Author: WoDeFeiZhu

@@ -3,11 +3,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.planx.anichat.Friend.AddFriendListener;
+import com.planx.anichat.friend.AddFriendListener;
 import com.planx.anichat.R;
 import com.planx.anichat.activity.MainActivity;
 import com.planx.anichat.activity.register.RegisterActivity;
@@ -39,13 +36,12 @@ public class LoginActivity extends AppCompatActivity {
     private String password;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
         verifyStoragePermissions(this);
         usernameText = findViewById(R.id.username);
         passwordText = findViewById(R.id.password);

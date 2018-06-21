@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.planx.anichat.thread.NetThread;
+
 import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
@@ -26,6 +28,11 @@ import io.agora.rtc.RtcEngine;
 
 
 public class MyApplication extends Application {
+
+    public static String callWho;
+    public static NetThread netThread;
+    public static double[] emotion = new double[10];
+    public static double[] emotionH = new double[10];
     private final String TAG = MyApplication.class.getSimpleName();
 
     private static SharedPreferences account;
@@ -51,6 +58,7 @@ public class MyApplication extends Application {
     public MyApplication() {
         mInstance = this;
     }
+
     private OnAgoraEngineInterface onAgoraEngineInterface;
 
     private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
@@ -60,6 +68,7 @@ public class MyApplication extends Application {
                 onAgoraEngineInterface.onFirstRemoteVideoDecoded(uid ,width,height,elapsed);
             }
         }
+
 
         @Override
         public void onUserOffline(int uid, int reason) {
@@ -119,6 +128,8 @@ public class MyApplication extends Application {
         initXmpp(getString(R.string.xmpp_domain),getString(R.string.xmpp_ip),Integer.parseInt(getString(R.string.xmpp_port)));
         connection=initConnection();
         account = getSharedPreferences("account", Context.MODE_PRIVATE);
+        netThread = new NetThread();
+        netThread.start();
     }
 
     public RtcEngine getmRtcEngine() {
@@ -159,6 +170,7 @@ public class MyApplication extends Application {
          void onUserMuteVideo(final int uid, final boolean muted);
 
          void onJoinChannelSuccess(String channel, int uid, int elapsed);
+
 
 
     }

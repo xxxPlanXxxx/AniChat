@@ -7,16 +7,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.planx.anichat.Adapter.FriendSubscribeAdapter;
+import com.planx.anichat.adapter.FriendSubscribeAdapter;
 import com.planx.anichat.MyApplication;
 import com.planx.anichat.R;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ReceiveSubscribeActivity extends AppCompatActivity implements FriendSubscribeAdapter.InnerItemOnclickListener,AdapterView.OnItemClickListener {
     private final String TAG = MyApplication.class.getSimpleName();

@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -32,7 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.account.ClipImageActivity"/>
+        <activity android:name=".activity.account.ClipImageActivity" />
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
@@ -40,7 +39,9 @@
         <activity
             android:name=".activity.video.CallActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+             />
         <activity
             android:name=".activity.register.RegisterActivity"
             android:launchMode="singleTask" />
@@ -58,6 +59,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
+        <activity
+            android:name="com.planx.facecapture.CameraActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape" />
+        <activity android:name=".activity.video.VideoActivity"></activity>
     </application>
 
 </manifest>

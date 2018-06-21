@@ -1,4 +1,4 @@
-package com.planx.anichat.Adapter;
+package com.planx.anichat.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.planx.anichat.R;

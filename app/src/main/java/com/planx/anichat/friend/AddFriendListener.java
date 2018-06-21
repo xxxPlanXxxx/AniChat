@@ -1,4 +1,4 @@
-package com.planx.anichat.Friend;
+package com.planx.anichat.friend;
 
 import android.util.Log;
 
@@ -6,17 +6,10 @@ import com.planx.anichat.MyApplication;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.StanzaListener;
-import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.AndFilter;
 import org.jivesoftware.smack.filter.StanzaTypeFilter;
-import org.jivesoftware.smack.packet.IQ;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.packet.Stanza;
-import org.jivesoftware.smack.roster.packet.RosterPacket;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Author: WoDeFeiZhu

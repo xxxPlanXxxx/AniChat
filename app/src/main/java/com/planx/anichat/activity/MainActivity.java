@@ -26,6 +26,7 @@ import com.planx.anichat.fragment.HomeFragment;
 import com.planx.anichat.activity.video.CallActivity;
 import com.planx.anichat.entity.TabEntity;
 import com.planx.anichat.utils.MyUtils;
+import com.planx.facecapture.CameraActivity;
 
 import java.util.ArrayList;
 
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent2);
                 return true;
             case R.id.action_video:
-                Toast.makeText(getApplicationContext(),"正在开发",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, CameraActivity.class));
                 return true;
 
             default:
@@ -284,6 +285,16 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
 
+            @Override
+            public void onMessageInstantReceive(String account, int uid, String msg) {
+                Log.i("onMessageInstantReceive",account+":"+msg);
+                String[] reciveEmotions = msg.split("@");
+                int i = 0;
+                for (String reciveEmotion :reciveEmotions){
+                    double rEmotion = Double.valueOf(reciveEmotion);
+                    MyApplication.emotionH[i]=rEmotion;
+                }
+            }
         });
 
     }
@@ -300,4 +311,5 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG ,"onDestroy");
         RtcEngine.destroy();
     }
+
 }

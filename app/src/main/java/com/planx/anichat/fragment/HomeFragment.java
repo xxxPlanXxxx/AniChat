@@ -12,7 +12,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,7 +30,7 @@ import android.widget.Toast;
 import com.itheima.pulltorefreshlib.PullToRefreshBase;
 import com.itheima.pulltorefreshlib.PullToRefreshListView;
 import com.planx.anichat.R;
-import com.planx.anichat.Adapter.FriendListAdapter;
+import com.planx.anichat.adapter.FriendListAdapter;
 import com.planx.anichat.MyApplication;
 
 import org.jivesoftware.smack.SmackException;
@@ -165,9 +164,9 @@ public class HomeFragment extends Fragment implements FriendListAdapter.InnerIte
     @Override
     public void itemClick(View v) {
 //        Toast.makeText(FriendListActicity.this,"呼叫"+mItems.get(m-1),Toast.LENGTH_LONG).show();
-        String callwho = mUsername.get(Integer.parseInt(v.getTag().toString()));
+        MyApplication.callWho = mUsername.get(Integer.parseInt(v.getTag().toString()));
 //        Toast.makeText(FriendListActicity.this,"呼叫"+callwho,Toast.LENGTH_LONG).show();
-        MyApplication.the().getmAgoraAPI().queryUserStatus(callwho);
+        MyApplication.the().getmAgoraAPI().queryUserStatus(MyApplication.callWho);
     }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

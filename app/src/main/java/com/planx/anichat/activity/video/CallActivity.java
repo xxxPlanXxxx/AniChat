@@ -18,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.*;
@@ -32,11 +33,25 @@ import com.planx.anichat.R;
 import com.planx.anichat.MyApplication;
 import io.agora.rtc.Constants;
 import io.agora.rtc.RtcEngine;
+import io.agora.rtc.mediaio.IVideoSource;
+import io.agora.rtc.video.AgoraVideoFrame;
 import io.agora.rtc.video.VideoCanvas;
 import com.planx.anichat.utils.MyUtils;
+import com.planx.anichat.view.CameraPreview;
+import com.planx.anichat.view.Live2dGLSurfaceView;
+
+import javax.microedition.khronos.egl.EGLContext;
 
 public class CallActivity extends AppCompatActivity implements MyApplication.OnAgoraEngineInterface {
     private final String TAG = CallActivity.class.getSimpleName();
+
+    public final double[] emotion = new double[10];
+
+    private IVideoSource source;
+
+    private int CAMERA_REQUEST_CODE = 20;
+    private GestureDetector mGesDetect;
+    private int mModel = 0;
 
     private static final int PERMISSION_REQ_ID_RECORD_AUDIO = 22;
     private static final int PERMISSION_REQ_ID_CAMERA = PERMISSION_REQ_ID_RECORD_AUDIO + 1;
@@ -52,14 +67,22 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
     private ImageView mCallHangupBtn;
     private RelativeLayout mLayoutCallIn;
 
-    private FrameLayout mLayoutBigView;
-    private FrameLayout mLayoutSmallView;
+    private RelativeLayout mLayoutBigView;
+    private RelativeLayout mLayoutSmallView;
 
     private String channelName = "channelid";
     private MediaPlayer mPlayer;
     private int callType = -1;
     private boolean mIsCallInRefuse = false;
     private int mRemoteUid = 0;
+
+    private final String MODEL_PATH = "live2d/haru/haru.moc";
+    private final String[] TEXTURE_PATHS = {
+            "live2d/haru/haru.1024/texture_00.png",
+            "live2d/haru/haru.1024/texture_01.png",
+            "live2d/haru/haru.1024/texture_02.png"
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +96,12 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
                 && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, PERMISSION_REQ_ID_STORAGE)) {
             initAgoraEngineAndJoinChannel();
         }
+
+
     }
 
     private void InitUI() {
+
         mCallTitle = (TextView) findViewById(R.id.meet_title);
 
         mCheckMute = (CheckBox) findViewById(R.id.call_mute_button);
@@ -84,8 +110,8 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
         mCallHangupBtn = (ImageView) findViewById(R.id.call_button_hangup);
         mLayoutCallIn = (RelativeLayout) findViewById(R.id.call_layout_callin);
 
-        mLayoutBigView = (FrameLayout) findViewById(R.id.remote_video_view_container);
-        mLayoutSmallView = (FrameLayout) findViewById(R.id.local_video_view_container);
+        mLayoutBigView = (RelativeLayout) findViewById(R.id.remote_video_view_container);
+        mLayoutSmallView = (RelativeLayout) findViewById(R.id.local_video_view_container);
     }
 
     private void setupData() {
@@ -101,6 +127,7 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
             mCallTitle.setText(String.format(Locale.US, "%s is calling...", mSubscriber));
 
             try {
+                //电话铃声响起
                 mPlayer = MediaPlayer.create(this, R.raw.basic_ring);
                 mPlayer.setLooping(true);
                 mPlayer.start();
@@ -443,17 +470,48 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
     // Tutorial Step 2
     private void setupVideoProfile() {
         mRtcEngine.enableVideo();
-        mRtcEngine.setVideoProfile(Constants.VIDEO_PROFILE_720P, false);
+        mRtcEngine.setExternalVideoSource(true, true, true);
+        mRtcEngine.setVideoProfile(Constants.VIDEO_PROFILE_480P, true);
     }
 
     // Tutorial Step 3
     private void setupLocalVideo() {
-        SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
-        mLayoutBigView.addView(surfaceView);
-        mRtcEngine.setupLocalVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, 0));
+        Log.d("setupLocalVideo " ,"+++++++++++++");
+        CameraPreview cameraPreview = new CameraPreview(this);
+        cameraPreview.init(this);
+        Live2dGLSurfaceView mGLSurfaceView = new Live2dGLSurfaceView(CallActivity.this);
+        mGLSurfaceView.init(CallActivity.this, MODEL_PATH, TEXTURE_PATHS, 1, 1);
+//        mGLSurfaceView.setOnFrameAvailableHandler(new Live2dGLSurfaceView.OnFrameAvailableListener(){
+//
+//            @Override
+//                public void onFrameAvailable(int texture, EGLContext eglContext, int rotation) {
+//                Log.d("onFrameAvailable " ,"+++++++++++++");
+//                AgoraVideoFrame vf = new AgoraVideoFrame();
+//                vf.format = AgoraVideoFrame.FORMAT_TEXTURE_2D;
+//                vf.timeStamp = System.currentTimeMillis();
+//                vf.stride = 1080;
+//                vf.height = 1920;
+//                vf.textureID = texture;
+//                vf.syncMode = true;
+//                vf.eglContext11 = eglContext;
+//                vf.transform = new float[]{
+//                        1.0f, 0.0f, 0.0f, 0.0f,
+//                        0.0f, 1.0f, 0.0f, 0.0f,
+//                        0.0f, 0.0f, 1.0f, 0.0f,
+//                        0.0f, 0.0f, 0.0f, 1.0f
+//                };
+//
+//                boolean result = mRtcEngine.pushExternalVideoFrame(vf);
+//                Log.d("onFrameAvailable " , eglContext + " " + rotation + " " + texture + " " + result);
+//            }
+//        });
+//        SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
+        mLayoutBigView.addView(mGLSurfaceView);
+        mLayoutSmallView.addView(cameraPreview);
+//        mRtcEngine.setupLocalVideo(new VideoCanvas(mGLSurfaceView));
         mLayoutBigView.setVisibility(View.VISIBLE);
-        int ret = mRtcEngine.startPreview();
-        Log.i(TAG, "setupLocalVideo startPreview enter << ret :" + ret);
+//        int ret = mRtcEngine.startPreview();
+//        Log.i(TAG, "setupLocalVideo startPreview enter << ret :" + ret);
     }
 
     // Tutorial Step 4
@@ -468,16 +526,51 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
         if (mLayoutBigView.getChildCount() >= 1) {
             mLayoutBigView.removeAllViews();
         }
+//        CameraPreview cameraPreview = new CameraPreview(this);
+//        cameraPreview.init(this);
+        Live2dGLSurfaceView mGLSurfaceView = new Live2dGLSurfaceView(CallActivity.this);
+        mGLSurfaceView.init(CallActivity.this, MODEL_PATH, TEXTURE_PATHS, 1, 1);
+        mGLSurfaceView.setOnFrameAvailableHandler(new Live2dGLSurfaceView.OnFrameAvailableListener(){
 
-        SurfaceView surfaceViewSmall = RtcEngine.CreateRendererView(getBaseContext());
-        surfaceViewSmall.setZOrderMediaOverlay(true);
-        mLayoutSmallView.addView(surfaceViewSmall);
-        mRtcEngine.setupLocalVideo(new VideoCanvas(surfaceViewSmall, VideoCanvas.RENDER_MODE_HIDDEN, 0));
+            @Override
+            public void onFrameAvailable(int texture, EGLContext eglContext, int rotation) {
+                AgoraVideoFrame vf = new AgoraVideoFrame();
+                vf.format = AgoraVideoFrame.FORMAT_TEXTURE_2D;
+                vf.timeStamp = System.currentTimeMillis();
+                vf.stride = 1080;
+                vf.height = 1920;
+                vf.textureID = texture;
+                vf.syncMode = true;
+                vf.eglContext11 = eglContext;
+                vf.transform = new float[]{
+                        1.0f, 0.0f, 0.0f, 0.0f,
+                        0.0f, 1.0f, 0.0f, 0.0f,
+                        0.0f, 0.0f, 1.0f, 0.0f,
+                        0.0f, 0.0f, 0.0f, 1.0f
+                };
+
+                boolean result = mRtcEngine.pushExternalVideoFrame(vf);
+                Log.d("onFrameAvailable " , eglContext + " " + rotation + " " + texture + " " + result);
+            }
+        });
+
+//        mGLSurfaceView.setOnEGLContextHandler(new Live2dGLSurfaceView.OnEGLContextListener() {
+//            @Override
+//            public void onEGLContextReady(EGLContext eglContext) {
+//
+//            }
+//        });
+//        SurfaceView surfaceViewSmall = RtcEngine.CreateRendererView(getBaseContext());
+//        surfaceViewSmall.setZOrderMediaOverlay(true);
+        mLayoutSmallView.addView(mGLSurfaceView);
+//        mRtcEngine.setupLocalVideo(new VideoCanvas(surfaceViewSmall));
         mLayoutSmallView.setVisibility(View.VISIBLE);
+
+
 
         SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
         mLayoutBigView.addView(surfaceView);
-        mRtcEngine.setupRemoteVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_HIDDEN, uid));
+        mRtcEngine.setupRemoteVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid));
         mLayoutBigView.setVisibility(View.VISIBLE);
     }
 
@@ -491,7 +584,7 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
 
     // Tutorial Step 10
     private void onRemoteUserVideoMuted(int uid, boolean muted) {
-        FrameLayout container = (FrameLayout) findViewById(R.id.remote_video_view_container);
+        RelativeLayout container = (RelativeLayout) findViewById(R.id.remote_video_view_container);
 
         SurfaceView surfaceView = (SurfaceView) container.getChildAt(0);
 

@@ -1,7 +1,6 @@
-package com.planx.anichat.Adapter;
+package com.planx.anichat.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,17 +12,13 @@ import com.planx.anichat.R;
 
 import java.util.List;
 
-/**
- * Author: WoDeFeiZhu
- * Date: 2018/6/4
- */
-public class FriendSubscribeAdapter extends BaseAdapter implements View.OnClickListener {
+public class FriendSearchListAdapter extends BaseAdapter implements View.OnClickListener {
     private List<String> mList;
     private Context mContext;
-    private FriendSubscribeAdapter.InnerItemOnclickListener mListener;
+    private FriendSearchListAdapter.InnerItemOnclickListener mListener;
     private int mPosition;
 
-    public FriendSubscribeAdapter(List<String> mList, Context mContext) {
+    public FriendSearchListAdapter(List<String> mList, Context mContext) {
         this.mList = mList;
         this.mContext = mContext;
     }
@@ -50,29 +45,25 @@ public class FriendSubscribeAdapter extends BaseAdapter implements View.OnClickL
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         mPosition = position;
-        final FriendSubscribeAdapter.ViewHolder viewHolder;
+        final FriendSearchListAdapter.ViewHolder viewHolder;
         if (convertView == null) {
-            viewHolder = new FriendSubscribeAdapter.ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_subscribe,
+            viewHolder = new FriendSearchListAdapter.ViewHolder();
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_search_friend,
                     null);
-            viewHolder.bt_accept = (Button) convertView.findViewById(R.id.bt_subscribe_accept);
-            viewHolder.bt_reject = convertView.findViewById(R.id.bt_subscribe_reject);
-            viewHolder.tv = (TextView) convertView.findViewById(R.id.subscribe_name);
+            viewHolder.bt = (Button) convertView.findViewById(R.id.bt_search_add);
+            viewHolder.tv = (TextView) convertView.findViewById(R.id.search_user_name);
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (FriendSubscribeAdapter.ViewHolder) convertView.getTag();
+            viewHolder = (FriendSearchListAdapter.ViewHolder) convertView.getTag();
         }
-        viewHolder.bt_accept.setOnClickListener(this);
-        viewHolder.bt_accept.setTag(position);
-        viewHolder.bt_reject.setTag(position);
-        viewHolder.bt_reject.setOnClickListener(this);
+        viewHolder.bt.setOnClickListener(this);
+        viewHolder.bt.setTag(position);
         viewHolder.tv.setText(mList.get(position));
         return convertView;
     }
 
     public final class ViewHolder {
-        Button bt_accept;
-        Button bt_reject;
+        Button bt;
         TextView tv;
     }
 
@@ -80,7 +71,7 @@ public class FriendSubscribeAdapter extends BaseAdapter implements View.OnClickL
         void itemClick(View v);
     }
 
-    public void setOnInnerItemOnClickListener(FriendSubscribeAdapter.InnerItemOnclickListener listener){
+    public void setOnInnerItemOnClickListener(FriendSearchListAdapter.InnerItemOnclickListener listener){
         this.mListener=listener;
     }
 }

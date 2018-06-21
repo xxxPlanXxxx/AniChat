@@ -6,19 +6,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.planx.anichat.Adapter.FriendListAdapter;
-import com.planx.anichat.Adapter.FriendSearchListAdapter;
-import com.planx.anichat.Adapter.FriendSubscribeAdapter;
+import com.planx.anichat.adapter.FriendSearchListAdapter;
 import com.planx.anichat.MyApplication;
 import com.planx.anichat.R;
-import com.planx.anichat.activity.MainActivity;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
@@ -26,11 +22,8 @@ import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smackx.search.ReportedData;
 import org.jivesoftware.smackx.search.UserSearchManager;
 import org.jivesoftware.smackx.xdata.Form;
-import org.jivesoftware.smackx.xdata.FormField;
-import org.jxmpp.stringprep.XmppStringprepException;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class AddFriendActivity extends AppCompatActivity implements FriendSearchListAdapter.InnerItemOnclickListener,
