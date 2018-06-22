@@ -18,6 +18,7 @@
 
     <Button
         android:id="@+id/bt_call"
+        android:background="@drawable/btn_bg"
         android:layout_width="109dp"
         android:layout_height="60dp"
         android:layout_alignParentEnd="true"

@@ -39,8 +39,6 @@ public class Live2dGLSurfaceView extends GLSurfaceView implements  GLSurfaceView
     private L2DEyeBlink mEyeBlink;
     private OnFrameAvailableListener mOnFrameAvailableHandler;
     private String TAG = "Live2D";
-    private String MODEL_PATH;
-    private String[] TEXTURE_PATHS;
 
     private float wRatio, hRatio;
 
@@ -120,7 +118,7 @@ public class Live2dGLSurfaceView extends GLSurfaceView implements  GLSurfaceView
 //    public synchronized void onFrameAvailable(SurfaceTexture surfaceTexture) {
 //        requestRender();
 //    }
-    public void init(boolean isMe,CallActivity activity, String MODEL_PATH, String[] TEXTURE_PATHS,
+    public void init(boolean isMe,CallActivity activity,
                      float wRatio, float hRatio) {
 //        final String MODEL_PATH = "live2d/haru/haru.moc";
 //        final String[] TEXTURE_PATHS = {
@@ -133,17 +131,16 @@ public class Live2dGLSurfaceView extends GLSurfaceView implements  GLSurfaceView
 //        setEGLContextFactory(new MyContextFactory(this));
 //        setPreserveEGLContextOnPause(true);
         this.isMe = isMe;
-        setUpModel(activity, MODEL_PATH, TEXTURE_PATHS, wRatio, hRatio);
+        setUpModel(activity, wRatio, hRatio);
         setRenderer(this);
 //        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
 
     }
-    public void setUpModel(CallActivity activity, String MODEL_PATH, String[] TEXTURE_PATHS,
+    public void setUpModel(CallActivity activity,
                            float wRatio, float hRatio) {
         this.mActivity = activity;
-        this.MODEL_PATH = MODEL_PATH;
-        this.TEXTURE_PATHS = TEXTURE_PATHS;
+
         this.wRatio = wRatio;
         this.hRatio = hRatio;
 
@@ -225,7 +222,7 @@ public class Live2dGLSurfaceView extends GLSurfaceView implements  GLSurfaceView
         Log.d("Render", "onSurfaceCreated");
 //        CameraPreview cameraPreview = new CameraPreview(mActivity);
 //        cameraPreview.init(mActivity);
-        loadLive2dModel(gl, MODEL_PATH, TEXTURE_PATHS);
+        loadLive2dModel(gl, MyApplication.MODEL_PATH, MyApplication.TEXTURE_PATHS);
 //        if (mOnEGLContextHandler != null) {
 //            if (mEGLCurrentContext != null) {
 //                mOnEGLContextHandler.onEGLContextReady(mEGLCurrentContext);

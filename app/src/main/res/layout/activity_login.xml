@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_main">
+
 
     <EditText
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="90dp"
+        android:layout_centerInParent="true"
         android:ems="10"
         android:hint="用户名"
-        android:inputType="text" />
+        android:inputType="text"
+        android:textColorHint="#645959" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="176dp"
+        android:layout_marginBottom="185dp"
         android:ems="10"
         android:hint="密码"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColorHint="#645959" />
 
     <Button
         android:id="@+id/bt_login"
@@ -31,19 +33,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="205dp"
+        android:layout_marginBottom="109dp"
+        android:background="@drawable/btn_bg"
         android:onClick="LoginClick"
         android:text="登陆" />
 
     <Button
         android:id="@+id/bt_sign_up"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="135dp"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/btn_bg"
         android:onClick="SignUpClick"
-        android:text="注册" />
+        android:text="没有账号？点击注册" />
 
 
 </RelativeLayout>

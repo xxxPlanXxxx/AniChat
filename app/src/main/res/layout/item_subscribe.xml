@@ -15,6 +15,7 @@
 
     <Button
         android:id="@+id/bt_subscribe_accept"
+        android:background="@drawable/btn_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -24,6 +25,7 @@
 
     <Button
         android:id="@+id/bt_subscribe_reject"
+        android:background="@drawable/btn_bg"
         android:layout_width="53dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

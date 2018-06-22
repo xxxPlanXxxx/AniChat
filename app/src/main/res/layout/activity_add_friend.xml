@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e6dcdc"
     tools:context=".activity.friend.AddFriendActivity">
 
     <TextView
@@ -14,7 +15,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/searchid"
         android:layout_marginEnd="46dp"
-        android:background="@color/blue"
+        android:background="@drawable/btn_bg"
         android:clickable="true"
         android:gravity="center"
         android:onClick="onClickSearchFriend"
@@ -23,11 +24,11 @@
 
     <TextView
         android:id="@+id/bt_subscribe"
+        android:background="@drawable/btn_bg"
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:background="@color/blue"
         android:clickable="true"
         android:gravity="center"
         android:onClick="onClickSubscribe"
@@ -42,7 +43,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="56dp"
         android:layout_marginTop="126dp"
-        android:hint="请输入对方id"
+        android:hint="请输入对方手机号"
         android:inputType="text" />
 
     <ListView

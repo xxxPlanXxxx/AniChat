@@ -29,6 +29,21 @@ import io.agora.rtc.RtcEngine;
 
 public class MyApplication extends Application {
 
+//    private static String MODEL_PATH = "live2d/haru/haru.moc";
+//    private static String[] TEXTURE_PATHS = {
+//            "live2d/haru/haru.1024/texture_00.png",
+//            "live2d/haru/haru.1024/texture_01.png",
+//            "live2d/haru/haru.1024/texture_02.png"
+//    };
+//    public static String MODEL_PATH = "live2d/chitose/chitose.moc";
+//    public static String[] TEXTURE_PATHS = {
+//            "live2d/chitose/chitose.1024/texture_00.png",
+//    };
+    public static String MODEL_PATH = "live2d/miku/miku.moc";
+    public static String[] TEXTURE_PATHS = {
+            "live2d/miku/miku.2048/texture_00.png",
+    };
+
     public static String callWho;
     public static NetThread netThread;
     public static double[] emotion = new double[10];

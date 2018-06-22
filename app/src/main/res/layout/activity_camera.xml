@@ -7,7 +7,7 @@
 
     <com.planx.facecapture.CameraPreview
         android:id="@+id/cam_preview"
-        android:layout_width="210dp"
-        android:layout_height="141dp" />
+        android:layout_width="288px"
+        android:layout_height="362px" />
 
 </RelativeLayout>

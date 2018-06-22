@@ -4,47 +4,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e6dcdc"
     tools:context=".activity.register.RegisterActivity">
 
     <EditText
         android:id="@+id/verification_code"
-        android:layout_width="78dp"
+        android:layout_width="136dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="91dp"
-        android:inputType="phone" />
+        android:layout_alignEnd="@+id/textView3"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="225dp"
+        android:hint="请输入验证码"
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/phone_number"
-        android:layout_width="152dp"
+        android:layout_width="254dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="57dp"
-        android:layout_marginTop="134dp"
-        android:hint="仅限大陆"
-        android:inputType="number" />
+        android:layout_alignStart="@+id/verification_code"
+        android:layout_marginTop="135dp"
+        android:hint="请输入手机号，仅限大陆"
+        android:inputType="phone" />
 
     <Button
         android:id="@+id/bt_sendMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/phone_number"
-        android:layout_marginEnd="61dp"
+        android:layout_alignTop="@+id/verification_code"
+        android:layout_marginEnd="67dp"
+        android:background="@drawable/btn_bg"
         android:onClick="RegisterClick"
-        android:text="发送" />
+        android:text="发送验证码" />
 
     <Button
         android:id="@+id/bt_register"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="121dp"
-        android:onClick="RegisterClick"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/btn_bg"
         android:clickable="false"
-        android:text="注册" />
+        android:onClick="RegisterClick"
+        android:text="注册"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="188dp"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="16dp"
+        android:text="欢迎注册AniChat"
+        android:textSize="25sp" />
 
 </RelativeLayout>

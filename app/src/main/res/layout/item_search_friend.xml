@@ -15,10 +15,11 @@
 
     <Button
         android:id="@+id/bt_search_add"
-        android:layout_width="122dp"
+        android:layout_width="116dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
+        android:background="@drawable/btn_bg"
         android:focusable="false"
         android:text="加为好友" />
 

@@ -124,7 +124,9 @@ public class CameraPreview extends SurfaceView
                 params.setPreviewSize(pWidth, pHeight); // 指定preview的大小
                 //params.setPreviewFpsRange(7000, 30000);
                 params.setPreviewFormat(ImageFormat.NV21);
+//                params.setRotation(90);
                 mCamera.setParameters(params);
+
 
                 bufferSize = pWidth * pHeight * ImageFormat.getBitsPerPixel(params.getPreviewFormat()) / 8;
                 buffer = new byte[bufferSize];
@@ -152,11 +154,13 @@ public class CameraPreview extends SurfaceView
                 Bitmap src = BitmapFactory.decodeByteArray(tmp, 0, tmp.length);
                 //rotate 90 degree
                 Matrix matrix = new Matrix();
-                matrix.postScale(-1, 1);
-                matrix.postTranslate(src.getWidth(), 0);
-                final Bitmap dst = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
-                new Canvas(dst).drawBitmap(src, matrix, new Paint());
 
+//                matrix.postScale(-1, 1);
+//                matrix.postTranslate(src.getWidth(), 0);
+//                final Bitmap dst = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
+//                new Canvas(dst).drawBitmap(src, matrix, new Paint());
+                matrix.setRotate(270);
+                final Bitmap dst = Bitmap.createBitmap(src,0,0,src.getWidth(),src.getHeight(),matrix,true);
                 synchronized (mSurfaceHolder) {
                     mFaceDetector.getLandmarks(dst);
                     Canvas canvas = mSurfaceHolder.lockCanvas();

@@ -34,10 +34,8 @@ import com.planx.anichat.MyApplication;
 import io.agora.rtc.Constants;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.mediaio.IVideoSource;
-import io.agora.rtc.video.AgoraVideoFrame;
-import io.agora.rtc.video.VideoCanvas;
 
-import com.planx.anichat.activity.MainActivity;
+
 import com.planx.anichat.utils.MyUtils;
 import com.planx.anichat.view.CameraPreview;
 import com.planx.anichat.view.Live2dGLSurfaceView;
@@ -78,12 +76,6 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
     private boolean mIsCallInRefuse = false;
     private int mRemoteUid = 0;
 
-    private final String MODEL_PATH = "live2d/haru/haru.moc";
-    private final String[] TEXTURE_PATHS = {
-            "live2d/haru/haru.1024/texture_00.png",
-            "live2d/haru/haru.1024/texture_01.png",
-            "live2d/haru/haru.1024/texture_02.png"
-    };
 
 
     @Override
@@ -507,7 +499,7 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
         CameraPreview cameraPreview = new CameraPreview(this);
         cameraPreview.init(this);
         Live2dGLSurfaceView mGLSurfaceView = new Live2dGLSurfaceView(CallActivity.this);
-        mGLSurfaceView.init(true,CallActivity.this, MODEL_PATH, TEXTURE_PATHS, 1, 1);
+        mGLSurfaceView.init(true,CallActivity.this, 1, 1);
 //        mGLSurfaceView.setOnFrameAvailableHandler(new Live2dGLSurfaceView.OnFrameAvailableListener(){
 //
 //            @Override
@@ -556,10 +548,10 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
         if (mLayoutSmallView.getChildCount() >= 1) {
             mLayoutSmallView.removeAllViews();
         }
-//        CameraPreview cameraPreview = new CameraPreview(this);
-//        cameraPreview.init(this);
-        Live2dGLSurfaceView mGLSurfaceView = new Live2dGLSurfaceView(CallActivity.this);
-        mGLSurfaceView.init(true,CallActivity.this, MODEL_PATH, TEXTURE_PATHS, 1, 1);
+        CameraPreview cameraPreview = new CameraPreview(this);
+        cameraPreview.init(this);
+//        Live2dGLSurfaceView mGLSurfaceView = new Live2dGLSurfaceView(CallActivity.this);
+//        mGLSurfaceView.init(true,CallActivity.this, MODEL_PATH, TEXTURE_PATHS, 1, 1);
 //        mGLSurfaceView.setOnFrameAvailableHandler(new Live2dGLSurfaceView.OnFrameAvailableListener(){
 //
 //            @Override
@@ -592,14 +584,14 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
 //        });
 //        SurfaceView surfaceViewSmall = RtcEngine.CreateRendererView(getBaseContext());
 //        surfaceViewSmall.setZOrderMediaOverlay(true);
-        mLayoutSmallView.addView(mGLSurfaceView);
+        mLayoutSmallView.addView(cameraPreview);
 //        mRtcEngine.setupLocalVideo(new VideoCanvas(surfaceViewSmall));
         mLayoutSmallView.setVisibility(View.VISIBLE);
 
 
 
         Live2dGLSurfaceView mGLSurfaceView1 = new Live2dGLSurfaceView(CallActivity.this);
-        mGLSurfaceView1.init(false,CallActivity.this, MODEL_PATH, TEXTURE_PATHS, 1, 1);
+        mGLSurfaceView1.init(false,CallActivity.this, 1, 1);
         mLayoutBigView.addView(mGLSurfaceView1);
 //        mRtcEngine.setupRemoteVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid));
         mLayoutBigView.setVisibility(View.VISIBLE);

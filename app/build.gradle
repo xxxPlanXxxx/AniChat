@@ -50,11 +50,16 @@ dependencies {
     implementation 'org.igniterealtime.smack:smack-android-extensions:4.1.9' //smack
     implementation 'org.igniterealtime.smack:smack-tcp:4.1.9'
 
+    implementation ('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
+        transitive = true
+    }
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.12' //gif
+
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    implementation 'com.tzutalin.dlib-android-app:dlib:1.0.4'
+    implementation 'com.tzutalin.dlib-android-app:dlib:1.0.4' //dlib
 
     implementation 'org.androidannotations:androidannotations-api:4.0.0'
 

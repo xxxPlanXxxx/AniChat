@@ -160,10 +160,12 @@ public class CameraPreview extends SurfaceView
                 Bitmap src = BitmapFactory.decodeByteArray(tmp, 0, tmp.length);
                 //rotate 90 degree
                 Matrix matrix = new Matrix();
-                matrix.postScale(-1, 1);
-                matrix.postTranslate(src.getWidth(), 0);
-                final Bitmap dst = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
-                new Canvas(dst).drawBitmap(src, matrix, new Paint());
+//                matrix.postScale(-1, 1);
+//                matrix.postTranslate(src.getWidth(), 0);
+//                final Bitmap dst = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
+//                new Canvas(dst).drawBitmap(src, new Matrix(), new Paint());
+                matrix.setRotate(270);
+                final Bitmap dst = Bitmap.createBitmap(src,0,0,src.getWidth(),src.getHeight(),matrix,true);
 
                 synchronized (mSurfaceHolder) {
                     mFaceDetector.getLandmarks(dst);
