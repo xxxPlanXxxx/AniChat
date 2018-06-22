@@ -50,7 +50,7 @@ dependencies {
     implementation 'org.igniterealtime.smack:smack-android-extensions:4.1.9' //smack
     implementation 'org.igniterealtime.smack:smack-tcp:4.1.9'
 
-    implementation ('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
+    implementation('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
         transitive = true
     }
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.12' //gif

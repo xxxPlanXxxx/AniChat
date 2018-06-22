@@ -143,6 +143,9 @@ public class HomeFragment extends Fragment implements FriendListAdapter.InnerIte
                 case 2:
                     mArrayAdapter.notifyDataSetChanged();
                     break;
+                case 3:
+                    mPullToRefreshListView.onRefreshComplete();//下拉刷新结束，下拉刷新头复位
+                    break;
             }
         }
     };
@@ -226,19 +229,53 @@ public class HomeFragment extends Fragment implements FriendListAdapter.InnerIte
          */
         @Override
         public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-            //模拟延时三秒刷新
-            mPullToRefreshListView.postDelayed(new Runnable() {
+
+            //刷新列表
+            activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     mItems.clear();
                     mPresences.clear();
                     bitmaps.clear();
-                    friendList();
+                    Set<RosterEntry> entries = MyApplication.getRoster().getEntries();
+                    for (RosterEntry entry : entries) {
+                        String nameId = entry.getUser();
+                        Log.i("HomeFragment",nameId);
+                        String username = nameId.split("@")[0];
+                        mUsername.add(username);
+                        String name = "匿名";
+                        Log.i("++++++++++",nameId);
+                        try {
+                            VCard vCard = vCardManager.loadVCard(nameId);
+                            if (vCard.getAvatar() != null) {
+                                ByteArrayInputStream bais = new ByteArrayInputStream(
+                                        vCard.getAvatar());
+                                bitmap = BitmapFactory.decodeStream(bais);
+                                bitmaps.add(bitmap);
+                            }else{
+                                bitmaps.add(null);
+                            }
+                            if (vCard.getNickName() != null) {
+                                name = vCard.getNickName();
+                            }
+                            mItems.add(name);
+                        } catch (SmackException.NoResponseException e) {
+                            e.printStackTrace();
+                        } catch (XMPPException.XMPPErrorException e) {
+                            e.printStackTrace();
+                        } catch (SmackException.NotConnectedException e) {
+                            e.printStackTrace();
+                        }
+                        mPresences.add(MyApplication.getRoster().getPresence(entry.getUser()).getType().toString());
+                    }
+                    Message msg = new Message();
+                    msg.what = 3;
+                    mHandler.sendMessage(msg);
                     mArrayAdapter.notifyDataSetChanged();
-                    mPullToRefreshListView.onRefreshComplete();//下拉刷新结束，下拉刷新头复位
+
 
                 }
-            }, 3000);
+            });
         }
 
         /**

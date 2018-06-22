@@ -1,27 +1,22 @@
-package com.planx.anichat.activity.login;
-import android.Manifest;
+package com.planx.anichat.activity;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.planx.anichat.friend.AddFriendListener;
-import com.planx.anichat.R;
-import com.planx.anichat.activity.MainActivity;
-import com.planx.anichat.activity.register.RegisterActivity;
 import com.planx.anichat.MyApplication;
+import com.planx.anichat.R;
+import com.planx.anichat.activity.login.LoginActivity;
 import com.planx.anichat.chat.ChatListener;
+import com.planx.anichat.friend.AddFriendListener;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
-
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.roster.Roster;
 
@@ -29,22 +24,14 @@ import java.io.IOException;
 
 import static com.planx.anichat.utils.MyUtils.verifyStoragePermissions;
 
-public class LoginActivity extends AppCompatActivity {
-    private EditText usernameText;
-    private EditText passwordText;
-    private String username;
-    private String password;
-
+public class WelcomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        usernameText = findViewById(R.id.username);
-        passwordText = findViewById(R.id.password);
-//        initView();
-        Log.i("LoginActivity","OnCreate执行完毕");
+        setContentView(R.layout.activity_welcome);
+        verifyStoragePermissions(this);
+        initView();
     }
 
     private void initView(){
@@ -78,18 +65,13 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
             }).start();
+        }else{
+            Intent intent = new Intent(getApplicationContext(),
+                    LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler(){
 
@@ -109,69 +91,28 @@ public class LoginActivity extends AppCompatActivity {
                     MyApplication.getRoster().setSubscriptionMode(Roster.SubscriptionMode.manual);
                     AddFriendListener.add();
                     ChatListener.add();
-                    Intent intent = new Intent(LoginActivity.this,
+                    Intent intent = new Intent(getApplicationContext(),
                             MainActivity.class);
                     startActivity(intent);
                     finish();
                     break;
-                case 2:
-                    MyApplication.logout();
-                    Toast.makeText(getApplicationContext(), "账号或密码错误，请重试！", Toast.LENGTH_LONG).show();
-                    usernameText.setText("");
-                    passwordText.setText("");
-                    break;
                 case 3:
                     MyApplication.logout();
                     Toast.makeText(getApplicationContext(), "密码已发生更改，请重新登陆！", Toast.LENGTH_LONG).show();
+                    Intent intent1 = new Intent(getApplicationContext(),
+                            MainActivity.class);
+                    startActivity(intent1);
+                    finish();
             }
         }
     };
-
-    //登陆事件
-    public void LoginClick(View view) {
-            username = usernameText.getText().toString();
-            password = passwordText.getText().toString();
-            if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "账号或密码不能为空", Toast.LENGTH_LONG).show();
-                return;
-            }
-            final SharedPreferences.Editor editor = MyApplication.getAccount().edit();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-//                        if(!MyApplication.getConnection().isConnected()){
-                            Log.i("LoginActivity","MyApplication.getConnection().connect();");
-                            MyApplication.getConnection().connect();
-//                        }
-                        //if(!MyApplication.getConnection().isAuthenticated()){
-                            MyApplication.getConnection().login(username, password);
-                            Log.i("LoginActivity","MyApplication.getConnection().login("+username+", "+password+");");
-                       // }
-                    } catch (SmackException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (XMPPException e) {
-                        e.printStackTrace();
-                    } finally {
-                        Message msg = new Message();
-                        if (MyApplication.getConnection().isAuthenticated()) {
-                            msg.what = 1;
-                            editor.putString("username", username);
-                            editor.putString("passwd", password);
-                            editor.commit();
-                        } else {
-                            msg.what = 2;
-                        }
-                        mHandler.sendMessage(msg);
-                    }
-                }
-            }).start();
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
-    public void SignUpClick(View view){
-        Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
-        startActivity(intent);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

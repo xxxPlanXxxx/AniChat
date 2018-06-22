@@ -25,33 +25,32 @@
             android:name=".activity.login.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.account.ClipImageActivity" />
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait" />
+
         <activity
             android:name=".activity.video.CallActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-             />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.register.RegisterActivity"
             android:launchMode="singleTask" />
+
         <activity
             android:name=".activity.friend.AddFriendActivity"
             android:launchMode="singleTask" />
         <activity
             android:name=".activity.friend.ReceiveSubscribeActivity"
             android:launchMode="singleTask" />
+
         <activity android:name=".activity.chat.ChatActicity" />
+
         <activity
             android:name=".activity.account.AccountActivity"
             android:parentActivityName=".activity.MainActivity">
@@ -59,11 +58,21 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
+
         <activity
             android:name="com.planx.facecapture.CameraActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.video.VideoActivity"></activity>
+
+        <activity android:name=".activity.video.VideoActivity" />
+
+        <activity android:name=".activity.WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
