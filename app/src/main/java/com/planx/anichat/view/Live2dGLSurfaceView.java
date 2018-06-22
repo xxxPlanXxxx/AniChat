@@ -40,6 +40,8 @@ public class Live2dGLSurfaceView extends GLSurfaceView implements  GLSurfaceView
     private OnFrameAvailableListener mOnFrameAvailableHandler;
     private String TAG = "Live2D";
 
+    private int modelTag;
+
     private float wRatio, hRatio;
 
 
@@ -118,7 +120,7 @@ public class Live2dGLSurfaceView extends GLSurfaceView implements  GLSurfaceView
 //    public synchronized void onFrameAvailable(SurfaceTexture surfaceTexture) {
 //        requestRender();
 //    }
-    public void init(boolean isMe,CallActivity activity,
+    public void init(boolean isMe,CallActivity activity,int modelTag,
                      float wRatio, float hRatio) {
 //        final String MODEL_PATH = "live2d/haru/haru.moc";
 //        final String[] TEXTURE_PATHS = {
@@ -131,6 +133,7 @@ public class Live2dGLSurfaceView extends GLSurfaceView implements  GLSurfaceView
 //        setEGLContextFactory(new MyContextFactory(this));
 //        setPreserveEGLContextOnPause(true);
         this.isMe = isMe;
+        this.modelTag = modelTag;
         setUpModel(activity, wRatio, hRatio);
         setRenderer(this);
 //        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
@@ -222,7 +225,7 @@ public class Live2dGLSurfaceView extends GLSurfaceView implements  GLSurfaceView
         Log.d("Render", "onSurfaceCreated");
 //        CameraPreview cameraPreview = new CameraPreview(mActivity);
 //        cameraPreview.init(mActivity);
-        loadLive2dModel(gl, MyApplication.MODEL_PATH, MyApplication.TEXTURE_PATHS);
+        loadLive2dModel(gl, MyApplication.getModelPath(modelTag), MyApplication.getTexturePaths(modelTag));
 //        if (mOnEGLContextHandler != null) {
 //            if (mEGLCurrentContext != null) {
 //                mOnEGLContextHandler.onEGLContextReady(mEGLCurrentContext);

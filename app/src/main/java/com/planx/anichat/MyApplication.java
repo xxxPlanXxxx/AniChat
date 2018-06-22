@@ -4,7 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.planx.anichat.activity.MainActivity;
 import com.planx.anichat.thread.NetThread;
 
 import org.jivesoftware.smack.AbstractXMPPConnection;
@@ -29,20 +31,127 @@ import io.agora.rtc.RtcEngine;
 
 public class MyApplication extends Application {
 
-//    private static String MODEL_PATH = "live2d/haru/haru.moc";
-//    private static String[] TEXTURE_PATHS = {
-//            "live2d/haru/haru.1024/texture_00.png",
-//            "live2d/haru/haru.1024/texture_01.png",
-//            "live2d/haru/haru.1024/texture_02.png"
-//    };
-//    public static String MODEL_PATH = "live2d/chitose/chitose.moc";
+//    public static String MODEL_PATH = "live2d/miku/miku.moc";
 //    public static String[] TEXTURE_PATHS = {
-//            "live2d/chitose/chitose.1024/texture_00.png",
+//            "live2d/miku/miku.2048/texture_00.png"
 //    };
-    public static String MODEL_PATH = "live2d/miku/miku.moc";
-    public static String[] TEXTURE_PATHS = {
-            "live2d/miku/miku.2048/texture_00.png",
-    };
+
+    public static String[] getTexturePaths(int tag){
+        String[] TEXTURE_PATHS ;
+        switch (tag) {
+            case 0:
+                TEXTURE_PATHS = new String[]{"live2d/eplison/Epsilon_free.2048/texture_00.png"};
+                return TEXTURE_PATHS;
+//                Toast.makeText(MainActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+            case 1:
+                TEXTURE_PATHS = new String[]{
+                        "live2d/haru/haru.1024/texture_00.png",
+                        "live2d/haru/haru.1024/texture_01.png",
+                        "live2d/haru/haru.1024/texture_02.png"
+                };
+
+                return TEXTURE_PATHS;
+//                Toast.makeText(MainActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+            case 2:
+                TEXTURE_PATHS = new String[]{
+                        "live2d/hibiki/hibiki.2048/texture_00.png"
+                };
+                return TEXTURE_PATHS;
+//                Toast.makeText(MainActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+            case 3:
+                TEXTURE_PATHS = new String[]{
+                        "live2d/miku/miku.2048/texture_00.png"
+                };
+                return TEXTURE_PATHS;
+//                Toast.makeText(MainActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+            case 4:
+                TEXTURE_PATHS = new String[]{
+                        "live2d/shizuku/shizuku.1024/texture_00.png",
+                        "live2d/shizuku/shizuku.1024/texture_01.png",
+                        "live2d/shizuku/shizuku.1024/texture_02.png",
+                        "live2d/shizuku/shizuku.1024/texture_03.png",
+                        "live2d/shizuku/shizuku.1024/texture_04.png"
+                };
+                return TEXTURE_PATHS;
+//                Toast.makeText(MainActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+
+            default:
+                TEXTURE_PATHS = new String[]{"live2d/eplison/Epsilon_free.2048/texture_00.png"};
+                return TEXTURE_PATHS;
+        }
+    }
+
+    public static String getModelPath(int tag){
+        String MODEL_PATH;
+        switch (tag) {
+            case 0:
+                MODEL_PATH =  "live2d/eplison/Epsilon_free.moc";
+                return MODEL_PATH;
+            case 1:
+                MODEL_PATH = "live2d/haru/haru.moc";
+              return MODEL_PATH;
+            case 2:
+                MODEL_PATH = "live2d/hibiki/hibiki.moc";
+                return MODEL_PATH;
+            case 3:
+                MODEL_PATH = "live2d/miku/miku.moc";
+                return MODEL_PATH;
+            case 4:
+                MODEL_PATH = "live2d/shizuku/shizuku.moc";
+                return MODEL_PATH;
+
+            default:
+                MODEL_PATH =  "live2d/eplison/Epsilon_free.moc";
+                return MODEL_PATH;
+        }
+    }
+
+//    public static boolean setModel(int tag){
+//        switch (tag) {
+//            case 0:
+//                MyApplication.MODEL_PATH = "live2d/eplison/Epsilon_free.moc";
+//                MyApplication.TEXTURE_PATHS = new String[]{"live2d/eplison/Epsilon_free.2048/texture_00.png"};
+////                Toast.makeText(MainActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case 1:
+//                MyApplication.MODEL_PATH = "live2d/haru/haru.moc";
+//                MyApplication.TEXTURE_PATHS = new String[]{
+//                        "live2d/haru/haru.1024/texture_00.png",
+//                        "live2d/haru/haru.1024/texture_01.png",
+//                        "live2d/haru/haru.1024/texture_02.png"
+//                };
+////                Toast.makeText(MainActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case 2:
+//                MyApplication.MODEL_PATH = "live2d/hibiki/hibiki.moc";
+//                MyApplication.TEXTURE_PATHS = new String[]{
+//                        "live2d/hibiki/hibiki.2048/texture_00.png"
+//                };
+////                Toast.makeText(MainActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+//                return true;
+//            case 3:
+//                MyApplication.MODEL_PATH = "live2d/miku/miku.moc";
+//                MyApplication.TEXTURE_PATHS = new String[]{
+//                        "live2d/miku/miku.2048/texture_00.png"
+//                };
+//                return true;
+////                Toast.makeText(MainActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+//            case 4:
+//                MyApplication.MODEL_PATH = "live2d/shizuku/shizuku.moc";
+//                MyApplication.TEXTURE_PATHS = new String[]{
+//                        "live2d/shizuku/shizuku.1024/texture_00.png",
+//                        "live2d/shizuku/shizuku.1024/texture_01.png",
+//                        "live2d/shizuku/shizuku.1024/texture_02.png",
+//                        "live2d/shizuku/shizuku.1024/texture_03.png",
+//                        "live2d/shizuku/shizuku.1024/texture_04.png"
+//                };
+//                return true;
+////                Toast.makeText(MainActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+//
+//                default:
+//                    return false;
+//        }
+//    }
 
     public static String callWho;
     public static NetThread netThread;

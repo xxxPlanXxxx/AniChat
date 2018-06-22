@@ -66,19 +66,19 @@ public class UltraPagerAdapter extends PagerAdapter {
         GifImageView img= new GifImageView(container.getContext());
         switch (position) {
             case 0:
-                img.setImageResource(R.drawable.hibiki);
+                img.setImageResource(R.drawable.eplison);
                 break;
             case 1:
-                img.setImageResource(R.drawable.eplison);
+                img.setImageResource(R.drawable.haru);
                 break;
             case 2:
                 img.setImageResource(R.drawable.hibiki);
                 break;
             case 3:
-                img.setImageResource(R.drawable.eplison);
+                img.setImageResource(R.drawable.miku);
                 break;
             case 4:
-                img.setImageResource(R.drawable.hibiki);
+                img.setImageResource(R.drawable.shizuku);
                 break;
         }
         container.addView(img);
@@ -89,6 +89,7 @@ public class UltraPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        super.destroyItem(container,position,object);
+        GifImageView img = (GifImageView)object;
+        container.removeView(img);
     }
 }

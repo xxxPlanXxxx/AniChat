@@ -9,10 +9,13 @@
 package com.planx.anichat.activity.video;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -40,18 +43,17 @@ import com.planx.anichat.utils.MyUtils;
 import com.planx.anichat.view.CameraPreview;
 import com.planx.anichat.view.Live2dGLSurfaceView;
 
+import org.jivesoftware.smackx.vcardtemp.VCardManager;
+import org.jivesoftware.smackx.vcardtemp.packet.VCard;
+
 import javax.microedition.khronos.egl.EGLContext;
 
 public class CallActivity extends AppCompatActivity implements MyApplication.OnAgoraEngineInterface {
     private final String TAG = CallActivity.class.getSimpleName();
 
-    public final double[] emotion = new double[10];
-
-    private IVideoSource source;
-
-    private int CAMERA_REQUEST_CODE = 20;
-    private GestureDetector mGesDetect;
-    private int mModel = 0;
+    private int tagMe;
+    private int tagNotMe=2;
+    private String accountNotMe;
 
     private static final int PERMISSION_REQ_ID_RECORD_AUDIO = 22;
     private static final int PERMISSION_REQ_ID_CAMERA = PERMISSION_REQ_ID_RECORD_AUDIO + 1;
@@ -113,6 +115,7 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
 
         mSubscriber = intent.getStringExtra("subscriber");
         channelName = intent.getStringExtra("channelName");
+        accountNotMe = intent.getStringExtra("account");
         callType = intent.getIntExtra("type", -1);
         if (callType == MyUtils.CALL_IN) {
             mIsCallInRefuse = true;
@@ -299,8 +302,7 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
              */
             @Override
             public void onInviteReceived(final String channelID, final String account, final int uid, String s2) {
-                Log.i(TAG, "onInviteReceived  channelID = " + channelID + "  account = " + account);
-
+                Log.i(TAG, "CallActicity.onInviteReceived  channelID = " + channelID + "  account = " + account);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -338,6 +340,7 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
              */
             @Override
             public void onInviteAcceptedByPeer(String channelID, String account, final int uid, String s2) {
+                accountNotMe = account;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -496,39 +499,30 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
     // Tutorial Step 3
     private void setupLocalVideo() {
         Log.d("setupLocalVideo " ,"+++++++++++++");
-        CameraPreview cameraPreview = new CameraPreview(this);
-        cameraPreview.init(this);
-        Live2dGLSurfaceView mGLSurfaceView = new Live2dGLSurfaceView(CallActivity.this);
-        mGLSurfaceView.init(true,CallActivity.this, 1, 1);
-//        mGLSurfaceView.setOnFrameAvailableHandler(new Live2dGLSurfaceView.OnFrameAvailableListener(){
-//
-//            @Override
-//                public void onFrameAvailable(int texture, EGLContext eglContext, int rotation) {
-//                Log.d("onFrameAvailable " ,"+++++++++++++");
-//                AgoraVideoFrame vf = new AgoraVideoFrame();
-//                vf.format = AgoraVideoFrame.FORMAT_TEXTURE_2D;
-//                vf.timeStamp = System.currentTimeMillis();
-//                vf.stride = 1080;
-//                vf.height = 1920;
-//                vf.textureID = texture;
-//                vf.syncMode = true;
-//                vf.eglContext11 = eglContext;
-//                vf.transform = new float[]{
-//                        1.0f, 0.0f, 0.0f, 0.0f,
-//                        0.0f, 1.0f, 0.0f, 0.0f,
-//                        0.0f, 0.0f, 1.0f, 0.0f,
-//                        0.0f, 0.0f, 0.0f, 1.0f
-//                };
-//
-//                boolean result = mRtcEngine.pushExternalVideoFrame(vf);
-//                Log.d("onFrameAvailable " , eglContext + " " + rotation + " " + texture + " " + result);
-//            }
-//        });
-//        SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
-        mLayoutBigView.addView(mGLSurfaceView);
-        mLayoutSmallView.addView(cameraPreview);
-//        mRtcEngine.setupLocalVideo(new VideoCanvas(mGLSurfaceView));
-        mLayoutBigView.setVisibility(View.VISIBLE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (!MyApplication.getConnection().isConnected())
+                        MyApplication.getConnection().connect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    MyApplication.getConnection().disconnect();
+                }
+                if (MyApplication.getConnection().isConnected()) {
+                    try {
+                        VCardManager vCardManager = VCardManager.getInstanceFor(MyApplication.getConnection());
+                        VCard vCard = vCardManager.loadVCard();
+                        tagMe= Integer.parseInt(vCard.getEmailHome());//占用此属性来存放用户使用的模型
+                        Message msg = new Message();
+                        msg.what = 1;
+                        mHandler.sendMessage(msg);
+                    } catch (Exception e) {
+                        e.printStackTrace();//
+                    }
+                }
+            }
+        });
 //        int ret = mRtcEngine.startPreview();
 //        Log.i(TAG, "setupLocalVideo startPreview enter << ret :" + ret);
     }
@@ -588,13 +582,33 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
 //        mRtcEngine.setupLocalVideo(new VideoCanvas(surfaceViewSmall));
         mLayoutSmallView.setVisibility(View.VISIBLE);
 
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (!MyApplication.getConnection().isConnected())
+                        MyApplication.getConnection().connect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    MyApplication.getConnection().disconnect();
+                }
+                if (MyApplication.getConnection().isConnected()) {
+                    try {
+                        VCardManager vCardManager = VCardManager.getInstanceFor(MyApplication.getConnection());
+                        Log.i("tagNotMe", accountNotMe+"@"+getString(R.string.xmpp_domain));
+                        VCard vCard = vCardManager.loadVCard(accountNotMe+"@"+getString(R.string.xmpp_domain));
+                        tagNotMe= Integer.parseInt(vCard.getEmailHome());//占用此属性来存放用户使用的模型
+                        Message msg = new Message();
+                        msg.what = 2;
+                        mHandler.sendMessage(msg);
+                    } catch (Exception e) {
+                        e.printStackTrace();//
+                    }
+                }
+            }
+        });
 
 
-        Live2dGLSurfaceView mGLSurfaceView1 = new Live2dGLSurfaceView(CallActivity.this);
-        mGLSurfaceView1.init(false,CallActivity.this, 1, 1);
-        mLayoutBigView.addView(mGLSurfaceView1);
-//        mRtcEngine.setupRemoteVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid));
-        mLayoutBigView.setVisibility(View.VISIBLE);
     }
 
 
@@ -676,5 +690,57 @@ public class CallActivity extends AppCompatActivity implements MyApplication.OnA
         MyApplication.the().setOnAgoraEngineInterface(this);
         setupData();
     }
+
+    @SuppressLint("HandlerLeak")
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    CameraPreview cameraPreview = new CameraPreview(CallActivity.this);
+                    cameraPreview.init(CallActivity.this);
+                    Live2dGLSurfaceView mGLSurfaceView = new Live2dGLSurfaceView(CallActivity.this);
+                    mGLSurfaceView.init(true,CallActivity.this,tagMe ,1, 1);
+//        mGLSurfaceView.setOnFrameAvailableHandler(new Live2dGLSurfaceView.OnFrameAvailableListener(){
+//
+//            @Override
+//                public void onFrameAvailable(int texture, EGLContext eglContext, int rotation) {
+//                Log.d("onFrameAvailable " ,"+++++++++++++");
+//                AgoraVideoFrame vf = new AgoraVideoFrame();
+//                vf.format = AgoraVideoFrame.FORMAT_TEXTURE_2D;
+//                vf.timeStamp = System.currentTimeMillis();
+//                vf.stride = 1080;
+//                vf.height = 1920;
+//                vf.textureID = texture;
+//                vf.syncMode = true;
+//                vf.eglContext11 = eglContext;
+//                vf.transform = new float[]{
+//                        1.0f, 0.0f, 0.0f, 0.0f,
+//                        0.0f, 1.0f, 0.0f, 0.0f,
+//                        0.0f, 0.0f, 1.0f, 0.0f,
+//                        0.0f, 0.0f, 0.0f, 1.0f
+//                };
+//
+//                boolean result = mRtcEngine.pushExternalVideoFrame(vf);
+//                Log.d("onFrameAvailable " , eglContext + " " + rotation + " " + texture + " " + result);
+//            }
+//        });
+//        SurfaceView surfaceView = RtcEngine.CreateRendererView(getBaseContext());
+                    mLayoutBigView.addView(mGLSurfaceView);
+                    mLayoutSmallView.addView(cameraPreview);
+//        mRtcEngine.setupLocalVideo(new VideoCanvas(mGLSurfaceView));
+                    mLayoutBigView.setVisibility(View.VISIBLE);
+                    break;
+                case 2:
+                    Log.i("tagNotMe", String.valueOf(tagNotMe));
+                    Live2dGLSurfaceView mGLSurfaceView1 = new Live2dGLSurfaceView(CallActivity.this);
+                    mGLSurfaceView1.init(false,CallActivity.this,tagNotMe ,1, 1);
+                    mLayoutBigView.addView(mGLSurfaceView1);
+//        mRtcEngine.setupRemoteVideo(new VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid));
+                    mLayoutBigView.setVisibility(View.VISIBLE);
+                    break;
+            }
+        }
+    };
 
 }

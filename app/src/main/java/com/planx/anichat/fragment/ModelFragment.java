@@ -22,6 +22,11 @@ public class ModelFragment extends Fragment {
     private Activity activity;
     private View layout;
 
+    public UltraViewPager getUltraViewPager() {
+        return ultraViewPager;
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,6 +52,8 @@ public class ModelFragment extends Fragment {
         adapter = new UltraPagerAdapter(true);
         ultraViewPager.setAdapter(adapter);
     }
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 public class Live2dGLSurfaceView extends GLSurfaceView {
 
     private String TAG = "Live2D";
+    private int modelTag;
 
     Live2dRenderer mLive2dRenderer;
 
@@ -27,7 +28,7 @@ public class Live2dGLSurfaceView extends GLSurfaceView {
         this.mContext = context;
     }
 
-    public void init(CameraActivity activity, String MODEL_PATH, String[] TEXTURE_PATHS,
+    public void init(CameraActivity activity, int modelTag,
                      float wRatio, float hRatio) {
 //        final String MODEL_PATH = "live2d/haru/haru.moc";
 //        final String[] TEXTURE_PATHS = {
@@ -37,7 +38,7 @@ public class Live2dGLSurfaceView extends GLSurfaceView {
 //        };
 
         this.mLive2dRenderer = new Live2dRenderer();
-        this.mLive2dRenderer.setUpModel(activity, MODEL_PATH, TEXTURE_PATHS, wRatio, hRatio);
+        this.mLive2dRenderer.setUpModel(activity, modelTag, wRatio, hRatio);
         this.setRenderer(this.mLive2dRenderer);
     }
 }

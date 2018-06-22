@@ -25,16 +25,15 @@ public class Live2dRenderer implements GLSurfaceView.Renderer {
     private Live2DModelAndroid live2DModel;
     private L2DEyeBlink mEyeBlink;
 
-    private String MODEL_PATH;
-    private String[] TEXTURE_PATHS;
+
+    private int tag;
 
     private float wRatio, hRatio;
 
-    public void setUpModel(CameraActivity activity, String MODEL_PATH, String[] TEXTURE_PATHS,
+    public void setUpModel(CameraActivity activity, int tag,
                            float wRatio, float hRatio) {
         this.mActivity = activity;
-        this.MODEL_PATH = MODEL_PATH;
-        this.TEXTURE_PATHS = TEXTURE_PATHS;
+        this.tag = tag;
         this.wRatio = wRatio;
         this.hRatio = hRatio;
 
@@ -100,6 +99,6 @@ public class Live2dRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
     {
         Log.d("Render", "onSurfaceCreated");
-        loadLive2dModel(gl, MODEL_PATH, TEXTURE_PATHS);
+        loadLive2dModel(gl, MyApplication.getModelPath(tag), MyApplication.getTexturePaths(tag));
     }
 }

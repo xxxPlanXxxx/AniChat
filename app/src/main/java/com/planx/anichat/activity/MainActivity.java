@@ -28,6 +28,9 @@ import com.planx.anichat.entity.TabEntity;
 import com.planx.anichat.utils.MyUtils;
 import com.planx.facecapture.CameraActivity;
 
+import org.jivesoftware.smackx.vcardtemp.VCardManager;
+import org.jivesoftware.smackx.vcardtemp.packet.VCard;
+
 import java.util.ArrayList;
 
 import io.agora.rtc.RtcEngine;
@@ -164,12 +167,41 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onClickModelSelect(View v){
+        final int tag = moudelFragment.getUltraViewPager().getCurrentItem();
+//        Toast.makeText(MainActivity.this,"你点击了第"+tag+"个",Toast.LENGTH_SHORT).show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (!MyApplication.getConnection().isConnected())
+                        MyApplication.getConnection().connect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    MyApplication.getConnection().disconnect();
+                }
+                if (MyApplication.getConnection().isConnected()) {
+                    try {
+                        VCardManager vCardManager = VCardManager.getInstanceFor(MyApplication.getConnection());
+                        VCard vCard = vCardManager.loadVCard();
+                        vCard.setEmailHome(String.valueOf(tag));//占用此属性来存放用户使用的模型
+                        vCardManager.saveVCard(vCard);
+                    } catch (Exception e) {
+                        e.printStackTrace();//
+                    }
+                }
+            }
+        });
+        Toast.makeText(MainActivity.this,"设置成功",Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_bar, menu);
         return true;
     }
+
     private void addCallback() {
         MyApplication.the().getmAgoraAPI().callbackSet(new AgoraAPI.CallBack() {
 
@@ -224,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Intent intent = new Intent(MainActivity.this, CallActivity.class);
-                        intent.putExtra("account", MyApplication.getAccount().getString("username",""));
+                        intent.putExtra("account", account);
                         intent.putExtra("channelName", channelID);
                         intent.putExtra("subscriber", account);
                         intent.putExtra("type", MyUtils.CALL_IN);
