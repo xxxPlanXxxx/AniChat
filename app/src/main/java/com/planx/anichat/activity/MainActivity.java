@@ -107,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         tabLayout.setCurrentTab(2);
-        tabLayout.showDot(1);
 
 
     }

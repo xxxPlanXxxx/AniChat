@@ -49,6 +49,8 @@ public class CameraActivity extends AppCompatActivity {
                         CAMERA_REQUEST_CODE);
             }
         }
+        mCameraPreview = (CameraPreview) findViewById(R.id.cam_preview);
+        mCameraPreview.init(CameraActivity.this);
 
 
         runOnUiThread(new Runnable() {
@@ -85,8 +87,7 @@ public class CameraActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 1:
-                    mCameraPreview = (CameraPreview) findViewById(R.id.cam_preview);
-                    mCameraPreview.init(CameraActivity.this);
+
                     RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
                     mGLSurfaceView = new Live2dGLSurfaceView(CameraActivity.this);
                     mGLSurfaceView.init(CameraActivity.this, modelTag, 1, 1);

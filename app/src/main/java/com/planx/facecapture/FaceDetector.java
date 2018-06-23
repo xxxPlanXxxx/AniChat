@@ -55,10 +55,16 @@ public class FaceDetector {
                 return;
             }
             Log.i(TAG,results.toString());
-            VisionDetRet ret = results.get(0);
-            int width = ret.getRight() - ret.getLeft();
-            //draw landmarks
-            ArrayList<Point> landmarks = ret.getFaceLandmarks();
+            ArrayList<Point> landmarks = null;
+            int width = 0;
+            for (final VisionDetRet ret : results) {
+                width = ret.getRight() - ret.getLeft();
+                landmarks = ret.getFaceLandmarks();
+            }
+            if(landmarks == null||landmarks.size()==0){
+                Log.d(TAG, "no face.");
+                return;
+            }
             Log.i(TAG,landmarks.toString());
             Canvas canvas = new Canvas(bmp);
             for (Point point : landmarks) {
