@@ -35,9 +35,8 @@ import java.util.ArrayList;
 
 import io.agora.rtc.RtcEngine;
 
-
+//
 public class MainActivity extends AppCompatActivity {
-
     private String[] mTitles = {"模型", "消息", "主页",};
     private int[] mIconUnselectIds = {
             R.mipmap.tab_more_unselect,R.mipmap.tab_speech_unselect,R.mipmap.tab_contact_unselect};
