@@ -37,6 +37,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'org.slf4j:slf4j-api:1.7.21'
     implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'io.agora.rtc:full-sdk:2.1.0'                //声网视频sdk
 
     implementation 'com.github.open-android:PullToRefresh:v1.0' //下拉加载更多
