@@ -98,58 +98,6 @@ public class CameraActivity extends AppCompatActivity {
         }
     };
 
-//    private class DoubleTapGestureDetector extends GestureDetector.SimpleOnGestureListener {
-//        @Override
-//        public boolean onDoubleTap(MotionEvent e) {
-//            Log.d("TAG", "Double Tap Detected ...");
-//            mModel = 1 - mModel;
-//
-//            if(mModel == 0) {
-//                final String MODEL_PATH = "live2d/haru/haru.moc";
-//                final String[] TEXTURE_PATHS = {
-//                        "live2d/haru/haru.1024/texture_00.png",
-//                        "live2d/haru/haru.1024/texture_01.png",
-//                        "live2d/haru/haru.1024/texture_02.png"
-//                };
-//                RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
-//                container.removeView(mGLSurfaceView);
-//                mGLSurfaceView = new Live2dGLSurfaceView(CameraActivity.this);
-//                mGLSurfaceView.init(CameraActivity.this, modelTag, 1, 1);
-//                container.addView(mGLSurfaceView);
-//                mGLSurfaceView.setOnTouchListener(new View.OnTouchListener() {
-//                    @Override
-//                    public boolean onTouch(View v, MotionEvent event) {
-//                        mGesDetect.onTouchEvent(event);
-//                        return true;
-//                    }
-//                });
-//
-//            } else {
-//                final String MODEL_PATH = "live2d/shizuku/shizuku.moc";
-//                final String TEXTURE_PATHS[] = {
-//                        "live2d/shizuku/shizuku.1024/texture_00.png",
-//                        "live2d/shizuku/shizuku.1024/texture_01.png",
-//                        "live2d/shizuku/shizuku.1024/texture_02.png",
-//                        "live2d/shizuku/shizuku.1024/texture_03.png",
-//                        "live2d/shizuku/shizuku.1024/texture_04.png"
-//                };
-//                RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
-//                container.removeView(mGLSurfaceView);
-//                mGLSurfaceView = new Live2dGLSurfaceView(CameraActivity.this);
-//                mGLSurfaceView.init(CameraActivity.this, modelTag, 1.5f, 1.5f);
-//                container.addView(mGLSurfaceView);
-//                mGLSurfaceView.setOnTouchListener(new View.OnTouchListener() {
-//                    @Override
-//                    public boolean onTouch(View v, MotionEvent event) {
-//                        mGesDetect.onTouchEvent(event);
-//                        return true;
-//                    }
-//                });
-//            }
-//            return true;
-//        }
-//    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         // ignore orientation/keyboard change

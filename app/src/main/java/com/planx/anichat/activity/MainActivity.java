@@ -10,8 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-import io.agora.AgoraAPI;
-import io.agora.IAgoraAPI;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
@@ -20,11 +18,11 @@ import com.planx.anichat.MyApplication;
 import com.planx.anichat.R;
 import com.planx.anichat.activity.account.AccountActivity;
 import com.planx.anichat.activity.friend.AddFriendActivity;
-import com.planx.anichat.fragment.ChatFragment;
-import com.planx.anichat.fragment.ModelFragment;
-import com.planx.anichat.fragment.HomeFragment;
 import com.planx.anichat.activity.video.CallActivity;
 import com.planx.anichat.entity.TabEntity;
+import com.planx.anichat.fragment.ChatFragment;
+import com.planx.anichat.fragment.HomeFragment;
+import com.planx.anichat.fragment.ModelFragment;
 import com.planx.anichat.utils.MyUtils;
 import com.planx.facecapture.CameraActivity;
 
@@ -33,9 +31,9 @@ import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
 import java.util.ArrayList;
 
-import io.agora.rtc.RtcEngine;
+import io.agora.AgoraAPI;
+import io.agora.IAgoraAPI;
 
-//
 public class MainActivity extends AppCompatActivity {
     private String[] mTitles = {"模型", "消息", "主页",};
     private int[] mIconUnselectIds = {
@@ -44,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             R.mipmap.tab_more_select,R.mipmap.tab_speech_select,R.mipmap.tab_contact_select};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private ArrayList<Fragment> mFragments = new ArrayList<>();
-    private HomeFragment homeFragment;
+    private HomeFragment homeFragment; //主页面
     private ModelFragment moudelFragment;
     private ChatFragment chatFragment;
 
@@ -55,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     private String appId;
     private String account;
     private final int REQUEST_CODE = 0x01;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +65,12 @@ public class MainActivity extends AppCompatActivity {
         MyApplication.the().getmAgoraAPI().login2(appId, account, "_no_need_token", 0, "" ,5,3  );
         addCallback();
         initView();
-
     }
-
-
-
+    /**
+     * 界面初始化
+     */
     private void initView(){
 
-        //初始化头像和昵称
 
 
         //标题栏
@@ -109,36 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-//    public void onClickMain(View v){
-//        Log.i(TAG ,"onClickLogin");
-//        switch (v.getId()){
-//            case R.id.bt_friend:
-//
-//                Intent intent = new Intent(MainActivity.this,FriendListFragment.class);
-//                Log.i(TAG ,"startActivity：FriendListActicity.class");
-//                startActivity(intent);
-//                break;
-//            case R.id.bt_out:
-//                MyApplication.the().getmAgoraAPI().logout();
-//                SharedPreferences user = getSharedPreferences("account", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = user.edit();
-//                editor.remove("username");
-//                editor.remove("passwd");
-//                editor.commit();
-//                Intent intent1 = new Intent(MainActivity.this,
-//                        LoginActivity.class);
-//                startActivity(intent1);
-//                MyApplication.logout();
-//                finish();
-//                break;
-//            case R.id.bt_add_friend:
-//                Intent intent2 = new Intent(MainActivity.this,
-//                        AddFriendActivity.class);
-//                startActivity(intent2);
-//                break;
-//        }
-//
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -159,15 +124,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * 点击了头像
+     *
+     * @param v 按钮
+     */
     public void onAvatarClick(View v){
-//        Toast.makeText(getApplicationContext(),"跳转到编辑页面",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * 点击了选择模型
+     *
+     * @param v 按钮
+     */
     public void onClickModelSelect(View v){
         final int tag = moudelFragment.getUltraViewPager().getCurrentItem();
-//        Toast.makeText(MainActivity.this,"你点击了第"+tag+"个",Toast.LENGTH_SHORT).show();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -200,6 +174,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * 声网SDK的回调函数
+     */
     private void addCallback() {
         MyApplication.the().getmAgoraAPI().callbackSet(new AgoraAPI.CallBack() {
 

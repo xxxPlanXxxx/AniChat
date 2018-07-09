@@ -66,4 +66,7 @@ dependencies {
 
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.1'
+
+//    implementation 'jp.wasabeef:takt:1.0.5'   //显示fps
+
 }

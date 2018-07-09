@@ -4,30 +4,20 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.planx.anichat.activity.MainActivity;
 import com.planx.anichat.thread.NetThread;
 
 import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
-import org.jxmpp.stringprep.XmppStringprepException;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.List;
 
 import io.agora.AgoraAPIOnlySignal;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
-
 
 public class MyApplication extends Application {
 
@@ -254,7 +244,13 @@ public class MyApplication extends Application {
         account = getSharedPreferences("account", Context.MODE_PRIVATE);
         netThread = new NetThread();
         netThread.start();
+//        Takt.stock(this).play();
     }
+//    @Override
+//    public void onTerminate() {
+//        Takt.finish();
+//        super.onTerminate();
+//    }
 
     public RtcEngine getmRtcEngine() {
         return mRtcEngine;

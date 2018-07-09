@@ -6,8 +6,6 @@
     android:background="#e6dcdc"
     tools:context=".fragment.ChatFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
 
 
 </FrameLayout>
